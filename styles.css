@@ -29,6 +29,10 @@
   --model-zoom-start:1.34;          /* escala inicial modelo */
   --model-zoom-mid:1.05;            /* ligera sobre-escala antes de asentarse */
   --model-zoom-duration:1.35s;      /* duración animación modelo */
+  /* Posición de la frase del 50% */
+  --half-quote-left:calc(2.5rem + .9rem); /* alinea con FASHIONABLE */
+  --half-quote-top:58%;                /* 2% más arriba */
+  --half-quote-size:clamp(1rem,2.8vw,1.5rem);
 }
 *{box-sizing:border-box}
 html,body{height:100%; overflow:hidden;}
@@ -182,6 +186,61 @@ body.intro-seq .hero-tagline{opacity:1; transform:translateY(-50%) scale(.5) sca
 @keyframes taglineGrow{
   0%{transform:translateY(-50%) scale(.5) scale(var(--taglineScroll,1))}
   100%{transform:translateY(-50%) scale(1) scale(var(--taglineScroll,1))}
+}
+
+/* Frase 50% (aparece sólo al half-state con slide-in izquierda→derecha) */
+.half-quote{
+  position:fixed;
+  left:calc(2.5rem + .9rem);
+  top:33%;
+  transform:translate(-24px,-50%);
+  color:#fff;
+  font-weight:800;
+  font-family:'Woodstock','Shrikhand','Luckiest Guy',cursive;
+  text-shadow:0 8px 26px rgba(0,0,0,.3);
+  font-size:clamp(1rem,2.8vw,1.5rem);
+  pointer-events:none;
+  opacity:0;
+  z-index:46;
+  display:none;
+}
+@keyframes halfQuoteIn{
+  0%{opacity:0; transform:translate(-28px,-50%)}
+  100%{opacity:1; transform:translate(0,-50%)}
+}
+/* Mostrar sólo al 50% */
+body.half-state .half-quote{
+  display:block;
+  animation:halfQuoteIn .6s cubic-bezier(.18,.72,.24,1) .02s forwards;
+}
+/* Ocultar al 100% */
+.products-overlay.active ~ .half-quote{ display:none; }
+
+/* ===== Frase en mitad (50%) sobre zona roja ===== */
+.half-quote{
+  position:fixed;          /* fija en viewport para que no dependa del hero */
+  left:var(--half-quote-left);
+  top:var(--half-quote-top);
+  transform:translateY(-50%);
+  color:#fff;
+  font-weight:800;
+  letter-spacing:.02em;
+  font-size:var(--half-quote-size);
+  z-index:46;              /* por encima del hero (22) y barra (45) */
+  pointer-events:none;
+  white-space:nowrap;
+}
+/* Estado base: oculto */
+.half-quote{ display:none; }
+/* Mostrar y animar cuando el cuerpo está en estado 50% */
+body.half-state .half-quote{
+  display:block;
+}
+/* Ocultar cuando el overlay está al 100% */
+.products-overlay.active ~ .half-quote{ display:none; }
+
+@media (max-width:900px){
+  .half-quote{ top:58%; font-size:clamp(.95rem,3.4vw,1.1rem); }
 }
 @media (prefers-reduced-motion: reduce){
   body.intro-seq .hero-tagline{opacity:1; transform:translateY(-50%) scale(1); animation:none !important}

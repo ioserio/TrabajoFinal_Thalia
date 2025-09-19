@@ -164,6 +164,12 @@ function setOverlayProgress(p){
     // Mostrar la frase tanto en el estado intermedio como en el 100%
     mid.setAttribute('aria-hidden', (halfOn || fullOn) ? 'false' : 'true');
   }
+  // Accesibilidad: sincronizar aria-hidden de la frase del 50%
+  const halfEl = document.querySelector('.half-quote');
+  if(halfEl){
+    halfEl.setAttribute('aria-hidden', halfOn ? 'false' : 'true');
+  }
+  // Half-quote: visibilidad controlada por CSS (body.half-state)
   const colRow = document.querySelector('.collections-row');
   if(colRow){
     // Las colecciones se ocultan sólo en el estado intermedio; al 100% se muestran junto con la frase
