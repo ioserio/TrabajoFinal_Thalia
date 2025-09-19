@@ -1,0 +1,495 @@
+:root{
+  --rose-1:#FADADD; --rose-2:#F78DA7;
+  --ink:#1A1A1A; --white:#fff;
+  --radius:22px; --shadow:0 24px 70px rgba(0,0,0,.14);
+  /* Tamaño del arte del reproductor (ajustado al rectángulo blanco de referencia) */
+  --player-art-size:232px;
+  /* Offset vertical para la imagen EVERYDAY (0 = borde). Negativo = más abajo (se corta). */
+  --everyday-offset:-280px;
+  /* Estirado horizontal (1 = normal). Aumentar ligeramente (ej. 1.08, 1.12) */
+  --everyday-scale-x:1.08;
+  /* Control tamaño modelo */
+  --model-width-fluid:44vw; /* ancho fluido relativo al viewport */
+  --model-width-max:600px;  /* ancho máximo absoluto */
+  --model-width-min:280px;  /* ancho mínimo */
+  --model-max-height:700px; /* altura máxima */
+  --model-lift:-32px; /* levantar la imagen del modelo (valor negativo = sube) */
+  /* Levantar la frase del 50% (valor negativo = sube). Ajusta a gusto */
+  /* Ajuste fino: aún más abajo al 100% */
+  --mid-phrase-lift:-10vh;
+  /* Mantener fija la posición de la frase entre 50% y 100% */
+  /* Parámetros efecto EVERYDAY */
+  --every-float:18px;              /* amplitud vertical */
+  --every-scale:1.012;             /* escala máxima en "respiración" */
+  --every-glow:0 18px 46px rgba(255,95,168,.35); /* sombra/glow pico */
+  /* Aparición (zoom) de EVERYDAY */
+  --every-zoom-start:1.32;          /* escala inicial (más grande) */
+  --every-zoom-duration:1.45s;      /* duración animación de entrada */
+  /* Aparición (zoom) del modelo */
+  --model-zoom-start:1.34;          /* escala inicial modelo */
+  --model-zoom-mid:1.05;            /* ligera sobre-escala antes de asentarse */
+  --model-zoom-duration:1.35s;      /* duración animación modelo */
+}
+*{box-sizing:border-box}
+html,body{height:100%; overflow:hidden;}
+body{margin:0; font-family:Poppins,system-ui,Segoe UI,Roboto,Arial; color:var(--ink);
+  background:url('imagenes/fondo.png') center center / cover no-repeat fixed;
+  background-color:#000; /* fallback */
+}
+
+/* Intro sequence base */
+body.intro-seq .hero .bg-word{opacity:0; transform:translate(-50%, 8%) translateY(60px); animation:wordIn 1.4s cubic-bezier(.16,.84,.26,.99) .2s forwards}
+@keyframes wordIn{to{opacity:.18; transform:translate(-50%, 8%) translateY(0)}}
+body.intro-seq .hero-img,
+body.intro-seq .hero-copy > *{opacity:0; transform:translateY(40px);}
+body.intro-seq.hero-done .hero-img,
+body.intro-seq.hero-done .nav,
+body.intro-seq.hero-done .hero-copy > *{transition:opacity .8s cubic-bezier(.16,.84,.26,.99), transform .8s cubic-bezier(.16,.84,.26,.99);}
+body.intro-seq.hero-done .hero-img{opacity:1; transform:none; transition-delay:.9s}
+body.intro-seq.hero-done .hero-copy > *{opacity:1; transform:none;}
+body.intro-seq.hero-done .hero-copy > *[style*="--i:"]{transition-delay:calc(1.05s + (var(--i) * .18s));}
+
+/* Animación avanzada de la imagen: scale + mask reveal */
+/* Aparición desde abajo (sin zoom) para la imagen del modelo */
+body.intro-seq .hero-img{opacity:1; transform:translateY(0) scale(.5); transform-origin:center center;} /* mismo efecto que FASHIONABLE: ya visible y crece */
+/* El modelo ahora anima inmediatamente (sin esperar hero-done) para sincronizar con EVERYDAY */
+body.intro-seq .hero-img{animation:heroImgIn var(--model-zoom-duration) cubic-bezier(.18,.72,.24,1) 0s forwards; transition:none}
+@keyframes heroImgIn{
+  0%{transform:translateY(0) scale(.5);} /* sin rebote ni fade */
+  100%{transform:translateY(0) scale(1);}  
+}
+
+main{overflow-x:hidden}
+
+/* ====== PILA (ONE-FRAME) ====== */
+.stack{min-height:100vh}
+
+/* Panel base */
+.panel{position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:0 1.5rem}
+
+/* ---------- Panel 1 (hero) ---------- */
+/* Eliminamos el overlay radial para mostrar la imagen de fondo limpia */
+.hero .bg-gradient{display:none}
+.bg-word{
+  position:absolute; bottom:0; left:50%; transform:translate(-50%, 8%);
+  font-family:"Luckiest Guy", cursive;
+  font-size:clamp(10rem, 28vw, 28rem); line-height:.78;
+  color:#fff; opacity:.18; -webkit-text-stroke:3px rgba(255,255,255,.45);
+  z-index:1; user-select:none; pointer-events:none; letter-spacing:.02em;
+  filter:drop-shadow(0 6px 18px rgba(0,0,0,.15));
+}
+.frame-card{
+  position:relative; /* quitamos z-index para que la imagen EVERYDAY pueda colocarse entre capas */
+  width:min(1180px, 92vw);
+  border-radius:var(--radius); background:rgba(255,255,255,.35);
+  backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,.6); box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+/* Overrides para hero plano y palabra gigante */
+.panel.hero{position:fixed; inset:0; width:100%; height:100vh; overflow:hidden;}
+.panel.hero .frame-card{width:100%;max-width:none;border-radius:0;background:transparent;backdrop-filter:none;border:none;box-shadow:none;overflow:visible;padding:0 2.5rem 0}
+.bg-word{
+  font-size:clamp(11rem,32vw,34rem);
+  line-height:.72;
+  letter-spacing:.01em;
+  z-index:0;
+  transform:translate(-50%,12%);
+  background:linear-gradient(110deg,#ff3d6a 0%,#ff7a4d 28%,#ffc441 55%,#ff5fa8 82%);
+  background-clip:text;
+  -webkit-background-clip:text;
+  color:transparent;
+  -webkit-text-stroke:5px rgba(255,255,255,.95);
+  filter:drop-shadow(0 8px 32px rgba(0,0,0,.35));
+  opacity:1;
+  mix-blend-mode:normal;
+}
+/* Imagen gigante EVERY DAY */
+/* Fondo tipográfico grande (EVERYDAY) centrado y pegado abajo */
+/* Contenedor de la palabra/imágen EVERYDAY fijado abajo con ligera separación */
+.bg-word-img{position:absolute; left:0; right:0; bottom:0; top:auto; width:100%; height:auto; min-height:0; display:flex; justify-content:center; align-items:flex-end; padding:0; pointer-events:none; user-select:none; z-index:15;}
+/* Imagen centrada; el ancho máximo controla la escala. Si el PNG tiene espacio lateral transparente sigue centrado visualmente */
+.bg-word-img img{position:relative; bottom:0; width:clamp(900px,92vw,1800px); max-width:1800px; height:auto; display:block; filter:drop-shadow(0 14px 38px rgba(0,0,0,.25)); opacity:0; transform:translateY(40px) scale(var(--every-zoom-start)) scaleX(var(--everyday-scale-x)); transform-origin:center center;}
+/* EVERYDAY: usar mismo efecto de aparición que el modelo (sube desde abajo) */
+body.intro-seq .bg-word-img img{opacity:1; transform:translateY(0) scale(.5) scaleX(var(--everyday-scale-x)); animation:everydayRise var(--model-zoom-duration) cubic-bezier(.18,.72,.24,1) 0s forwards; transition:transform .55s ease;}
+@keyframes everyZoomIn{0%{opacity:0; transform:translateY(60px) scale(var(--every-zoom-start)) scaleX(var(--everyday-scale-x));}55%{opacity:1; transform:translateY(0) scale(1.04) scaleX(var(--everyday-scale-x));}100%{opacity:1; transform:translateY(0) scale(1) scaleX(var(--everyday-scale-x));}}
+/* Fallback: si por algún motivo no corre la animación (body sin clase intro-seq) aseguramos estado visible */
+body.hero-done .bg-word-img img, body:not(.intro-seq) .bg-word-img img{opacity:1 !important; transform:translateY(0) scale(1) scaleX(var(--everyday-scale-x)) !important;}
+/* Forzar visibilidad y jerarquía clara (EVERYDAY delante de modelo, detrás del texto) */
+/* Mantener fixed del bloque superior; regla vacía eliminada para evitar warning */
+.panel.hero .bg-word-img{z-index:15}
+.panel.hero .bg-word-img img{opacity:1; transform:translateY(0) scale(1) scaleX(var(--everyday-scale-x)); bottom:var(--everyday-offset);} /* se elimina animation:none para no cancelar entrada */
+/* Eliminamos flotación/glow; solo subida inicial */
+@keyframes everydayRise{
+  0%{transform:translateY(0) scale(.5) scaleX(var(--everyday-scale-x));}
+  100%{transform:translateY(0) scale(1) scaleX(var(--everyday-scale-x));}
+}
+.panel.hero .hero-img{z-index:10}
+.panel.hero .nav, .panel.hero .hero-copy{z-index:20}
+@media (max-width:900px){.bg-word-img img{width:clamp(780px,96vw,1500px);}}
+@media (max-width:650px){.bg-word-img{min-height:clamp(200px,46vh,500px);} .bg-word-img img{width:clamp(640px,100vw,1300px);}}
+body.intro-seq .hero .bg-word{opacity:0; animation:wordIn 1.15s cubic-bezier(.16,.84,.26,.99) .05s forwards}
+@keyframes wordIn{to{opacity:1; transform:translate(-50%,12%)}}
+/* Navegación original eliminada; se mantienen clases por si quedan referencias en JS/CSS pero sin estilo visible */
+.nav, .brand, .side-menu, .newsletter{display:none !important}
+.hero-grid{display:grid; grid-template-columns:1fr; place-items:center; height:100%; padding:0}
+.hero-grid > .hero-img{grid-column:1 / -1; justify-self:center; align-self:center; margin-bottom:1.2rem}
+.hero-img{position:relative; z-index:0}
+/* Aseguramos que el texto y navegación queden por encima de la palabra EVERYDAY */
+.hero-copy{position:relative; z-index:2}
+.hero-img{
+  /* Imagen agrandada y centrada (sin marco ni sombra) */
+  width:clamp(var(--model-width-min), var(--model-width-fluid), var(--model-width-max));
+  height:auto;
+  max-height:var(--model-max-height);
+  object-fit:contain;
+  object-position:center center;
+  margin-left:auto; margin-right:auto; display:block; justify-self:center; align-self:center;
+  margin-top:var(--model-lift);
+  border-radius:0; box-shadow:none; filter:drop-shadow(0 12px 32px rgba(0,0,0,.28)); /* sombra natural sobre contorno */
+  transition:width .6s ease, max-height .6s ease, filter .6s ease;
+}
+.hero-copy{display:grid; align-content:start; gap:1rem}
+.kicker{font-family:"Luckiest Guy", cursive; letter-spacing:.04em; font-size:clamp(1.6rem,3vw,2.75rem)}
+.mini-strips{display:flex; gap:.6rem}
+.mini-strips img{width:48%; height:86px; object-fit:cover; border-radius:12px}
+.explore-card{position:relative; display:block; width:78%; text-decoration:none; color:#fff}
+.explore-card img{width:100%; height:180px; object-fit:cover; border-radius:16px; box-shadow:0 8px 30px rgba(0,0,0,.2)}
+.explore-card span{position:absolute; inset:auto 12px 12px auto; background:rgba(0,0,0,.75); padding:.4rem .7rem; border-radius:999px; font-size:.85rem}
+.open-products-btn{border:none; background:var(--ink); color:#fff; padding:.9rem 1.4rem; border-radius:14px; font-weight:600; letter-spacing:.05em; cursor:pointer; box-shadow:0 10px 28px -10px rgba(0,0,0,.35); font-size:.75rem; transition:.35s; width:max-content}
+.open-products-btn:hover{background:#000; transform:translateY(-3px)}
+
+/* ===== Hero UI (overlay de portada) ===== */
+.hero-ui{position:absolute; inset:0; pointer-events:none; z-index:22}
+.hero-ui > *{pointer-events:auto}
+.hero-brand{position:absolute; top:2.6rem; left:.8rem; font-family:'Woodstock','Shrikhand','Luckiest Guy',cursive; font-size:clamp(1.2rem,2.2vw,1.8rem); letter-spacing:.08em; color:#fff; text-shadow:0 6px 18px rgba(0,0,0,.25); background:transparent; padding:.35rem .6rem; border-radius:10px}
+.hero-menu{position:absolute; top:2.6rem; left:clamp(18rem, 28vw, 34rem)}
+.hero-menu ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.35rem}
+.hero-menu a{color:#fff; text-decoration:none; font-weight:800; font-size:.9rem; letter-spacing:.06em; background:transparent; padding:.05rem 0 .05rem .9rem; border-radius:0; text-shadow:0 3px 12px rgba(0,0,0,.35); position:relative; display:inline-block}
+.hero-menu a::before{content:""; position:absolute; left:0; top:50%; transform:translateY(-50%); width:4px; height:0.9em; border-radius:2px; background:transparent; transition:background .2s ease, height .2s ease}
+.hero-menu a.active::before, .hero-menu a[aria-current="page"]::before{background:#fff}
+.hero-menu a:hover::before, .hero-menu a:focus-visible::before{background:rgba(255,255,255,.85)}
+.hero-newsletter{position:absolute; top:2.6rem; right:.8rem; display:flex; flex-direction:column; align-items:flex-end; gap:.7rem}
+.hero-newsletter .hlinks{display:flex; gap:.6rem; align-items:center; min-height:40px}
+.hero-newsletter .hlinks a{color:#fff; text-decoration:none; font-weight:800; font-size:.95rem; line-height:1; letter-spacing:.06em; background:transparent; padding:0; border-radius:0; text-shadow:0 3px 12px rgba(0,0,0,.35); white-space:nowrap}
+.hero-newsletter .hform{display:flex; align-items:center; gap:.35rem; background:rgba(255,255,255,.78); border-radius:999px; padding:.25rem .3rem; box-shadow:0 8px 24px rgba(0,0,0,.12); margin-top:.2rem; width:280px}
+.hero-newsletter .hform input{border:none; outline:none; background:transparent; padding:.35rem .6rem; font-size:.85rem; flex:1 1 auto; min-width:0}
+.hero-newsletter .hform button{border:none; width:34px; height:34px; border-radius:50%; background:#111; color:#fff; display:grid; place-items:center; cursor:pointer}
+.hero-tagline{position:absolute; left:.9rem; top:40%; transform:translateY(-50%) scale(var(--taglineScroll,1)); transform-origin:left center; font-family:'Woodstock', 'Shrikhand', 'Luckiest Guy', cursive; font-size:clamp(2.1rem,7vw,4rem); color:#fff; text-shadow:0 8px 26px rgba(0,0,0,.3)}
+/* Entrada suave: de pequeño a tamaño real, rápido pero no brusco */
+/* Igual timing que modelo y EVERYDAY: arranca al inicio, sin "aparecer"; ya está visible y sólo crece */
+body.intro-seq .hero-tagline{opacity:1; transform:translateY(-50%) scale(.5) scale(var(--taglineScroll,1)); animation:taglineGrow var(--model-zoom-duration) cubic-bezier(.18,.72,.24,1) 0s forwards}
+@keyframes taglineGrow{
+  0%{transform:translateY(-50%) scale(.5) scale(var(--taglineScroll,1))}
+  100%{transform:translateY(-50%) scale(1) scale(var(--taglineScroll,1))}
+}
+@media (prefers-reduced-motion: reduce){
+  body.intro-seq .hero-tagline{opacity:1; transform:translateY(-50%) scale(1); animation:none !important}
+}
+/* ===== Reproductor de música (lado derecho) ===== */
+.hero-player{position:absolute; right:1.2rem; left:auto; top:46%; transform:translateY(-50%); width:var(--player-art-size); color:#fff; z-index:22}
+.hero-player .album-art{position:relative; width:100%; aspect-ratio:1/1; border-radius:16px; background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(0,0,0,.15)), var(--art) center/cover no-repeat; opacity:.82; box-shadow:0 12px 30px rgba(0,0,0,.25); overflow:hidden}
+.hero-player .album-art .art-overlay{position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; gap:.55rem; padding:.7rem; background:linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,.55) 100%); opacity:0; transition:opacity .25s ease}
+.hero-player .album-art:hover .art-overlay{opacity:1}
+.hero-player .art-overlay .meta{line-height:1.1}
+.hero-player .art-overlay .meta strong{font-size:.72rem; opacity:.85}
+.hero-player .art-overlay .meta .track-title{display:block; font-size:.95rem; font-weight:800}
+.hero-player .controls{display:flex; align-items:center; gap:.45rem; flex-wrap:wrap}
+.hero-player .controls button{width:38px; height:38px; border-radius:999px; border:none; background:#111; color:#fff; font-weight:800; cursor:pointer; box-shadow:0 10px 26px rgba(0,0,0,.25)}
+.hero-player .progress{height:6px; background:rgba(255,255,255,.35); border-radius:999px; overflow:hidden}
+.hero-player .progress-fill{height:100%; width:0%; background:#fff}
+@media (max-width:900px){
+  .hero-player{right:.9rem; top:54%; width:calc(var(--player-art-size) - 24px)}
+}
+
+@media (max-width:900px){
+  .hero-explore-card img{width:180px; height:180px}
+  .hero-tagline{font-size:clamp(1.4rem,6vw,2.2rem)}
+}
+@media (max-width:640px){
+  .hero-newsletter{display:none}
+  .hero-menu{top:2.6rem; left:1rem}
+  .hero-explore-card{top:52%}
+}
+
+/* ---------- Sticky wrapper para el cover ---------- */
+/* El alto de 200vh crea “tramo” de desplazamiento mientras el cover queda pegado y tapa al hero */
+.sticky-wrap{height:200vh; position:relative}
+.cover{
+  position:sticky; top:0;             /* se pega a la parte superior */
+  z-index:10;                         /* por encima del hero cuando entra */
+  display:flex; align-items:center; justify-content:center;
+}
+.cover-card{
+  width:min(1200px, 94vw); background:#fff; border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:clamp(1.25rem,4vw,2.5rem);
+}
+
+/* Segunda capa sticky (productos) */
+.products-wrap{height:300vh; position:relative}
+.products{position:sticky; top:0; z-index:20; display:flex; align-items:flex-start; justify-content:center; padding-top:4rem; background:linear-gradient(#ffffff,#fff)}
+.products-card{width:min(1250px,95vw); background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); padding:clamp(1.4rem,3.2vw,2.6rem); display:flex; flex-direction:column; gap:3rem}
+.products-card .catalog.intro-only{padding:0}
+.products-card .catalog.intro-only .kicker{font-size:clamp(2rem,6vw,3.6rem)}
+.products-card .catalog.intro-only p{max-width:680px; font-size:1rem}
+.products-card .catalog-tags span{background:var(--ink)}
+
+@media (max-width:900px){
+  .products-wrap{height:340vh}
+  .products{padding-top:2.5rem}
+  .products-card{gap:2.5rem}
+}
+
+/* Statement + Gallery del cover */
+.statement{position:relative; padding:.5rem 0 2rem}
+.be-word{font-family:"Luckiest Guy", cursive; font-size:clamp(3rem,12vw,7rem); color:#f3b7c4; line-height:.9}
+.tiny{position:absolute; top:.75rem; right:.5rem; font-size:.75rem; color:#777; letter-spacing:.04em}
+.headline{font-size:clamp(1.1rem,2.4vw,2rem); font-weight:800; line-height:1.2}
+.headline span{color:var(--rose-2)}
+.collections{display:grid; gap:1rem; grid-template-columns:repeat(4,1fr)}
+.card{background:#fff; border-radius:18px; overflow:hidden; box-shadow:0 8px 26px rgba(0,0,0,.08); display:flex; flex-direction:column}
+.card img{width:100%; aspect-ratio:1/1; object-fit:cover}
+.card .meta{padding:.75rem .9rem; font-size:.92rem; color:#333}
+
+/* Animaciones por orden */
+.reveal-first,.reveal-mid,.reveal-late{opacity:0; transform:translateY(24px); filter:blur(2px); transition:opacity .6s,transform .6s,filter .6s}
+.in-view .reveal-first{opacity:1; transform:none; filter:none; transition-delay:.05s}
+.in-view .reveal-mid{opacity:1; transform:none; filter:none; transition-delay:.20s}
+.in-view .reveal-late{opacity:1; transform:none; filter:none; transition-delay:.38s}
+
+/* Responsive */
+@media (max-width:980px){
+  .hero-grid{grid-template-columns:1fr}
+  .explore-card{width:100%}
+  .collections{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:580px){
+  .collections{grid-template-columns:1fr}
+  .bg-word{font-size:20vw}
+}
+
+/* ====== CATÁLOGO DE PRODUCTOS ====== */
+.topbar{position:sticky; top:0; z-index:50; display:flex; gap:2rem; align-items:center; padding:.85rem 1.5rem; background:rgba(255,255,255,.8); backdrop-filter:blur(10px); box-shadow:0 4px 18px -6px rgba(0,0,0,.12)}
+.topbar .brand{font-weight:800; letter-spacing:.08em}
+.main-nav{display:flex; gap:1rem; flex-wrap:wrap}
+.main-nav a{color:#222; text-decoration:none; font-size:.85rem; font-weight:500; padding:.45rem .9rem; border-radius:999px; transition:.25s}
+.main-nav a:hover{background:#f2f2f2}
+
+.catalog{padding:2rem 1rem 4rem; display:flex; flex-direction:column; gap:4rem}
+.catalog .intro{padding:2.2rem 1.8rem; background:linear-gradient(135deg,#ffe8ee,#ffffff 55%)}
+.catalog-hero{max-width:860px}
+.catalog-tags{display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.75rem}
+.catalog-tags span{background:#222; color:#fff; font-size:.65rem; letter-spacing:.05em; padding:.4rem .6rem; border-radius:999px}
+
+.product-category .frame-card{padding:1.6rem 1.4rem 2.2rem}
+.category-head h2{margin:0 0 .35rem; font-size:clamp(1.4rem,3vw,2.2rem); font-family:"Luckiest Guy",cursive; letter-spacing:.04em}
+.category-head p{margin:0 0 1.4rem; font-size:.9rem; color:#555; max-width:560px}
+
+.product-grid{display:grid; gap:1rem; grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+.p-card{background:#fff; border:1px solid #ececec; border-radius:18px; padding:.85rem .85rem 1.15rem; display:flex; flex-direction:column; position:relative; box-shadow:0 6px 20px -8px rgba(0,0,0,.1); transition:transform .35s, box-shadow .35s}
+.p-card:hover{transform:translateY(-6px); box-shadow:0 14px 34px -10px rgba(0,0,0,.18)}
+.p-card img{width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:14px; margin-bottom:.65rem}
+.p-card h3{font-size:.95rem; margin:0 0 .25rem; font-weight:600}
+.p-card .price{font-size:.85rem; margin:0 0 .6rem; color:#444; font-weight:500}
+.p-card button{margin-top:auto; background:var(--ink); color:#fff; border:none; padding:.55rem .9rem; border-radius:12px; font-size:.75rem; cursor:pointer; letter-spacing:.05em; font-weight:600; transition:.25s}
+.p-card button:hover{background:#000}
+
+.site-footer{margin-top:4rem; padding:2.5rem 1rem; text-align:center; font-size:.75rem; color:#666; background:#fafafa; border-top:1px solid #eee}
+
+@media (max-width:700px){
+  .catalog{gap:3rem}
+  .product-category .frame-card{padding:1.3rem 1rem 1.8rem}
+  .main-nav{gap:.4rem}
+}
+
+@media (max-width:480px){
+  .p-card{padding:.75rem .75rem 1rem}
+  .product-grid{gap:.75rem}
+}
+
+/* Barra de progreso del overlay */
+.overlay-progress{position:fixed; top:50%; right:18px; transform:translateY(-50%); z-index:45; display:flex; flex-direction:column; align-items:center; gap:.4rem; font-size:.6rem; font-weight:600; letter-spacing:.08em; color:#444; opacity:0; transition:opacity .4s}
+.overlay-progress.visible{opacity:1}
+.overlay-progress .op-track{width:7px; height:180px; background:linear-gradient(#f4f4f4,#ececec); border-radius:999px; position:relative; overflow:hidden; box-shadow:inset 0 0 0 1px #e2e2e2}
+.overlay-progress .op-fill{position:absolute; bottom:0; left:0; width:100%; height:0%; background:linear-gradient(180deg,var(--ink),#555); border-radius:inherit; transition:height .12s linear}
+.overlay-progress .op-label{background:#fff; padding:.35rem .5rem; border-radius:8px; box-shadow:0 4px 14px -6px rgba(0,0,0,.2)}
+@media (max-width:800px){
+  .overlay-progress{right:8px}
+  .overlay-progress .op-track{height:140px}
+}
+@media (max-width:520px){
+  .overlay-progress{display:none}
+}
+
+/* ===== Overlay Productos emergente ===== */
+.products-overlay{position:fixed; inset:0; background:rgba(255,255,255,0.96); backdrop-filter:blur(12px); z-index:40; transform:translateY(100%); transition:transform .9s cubic-bezier(.85,.02,.15,.99); display:flex; flex-direction:column; padding:clamp(1.2rem,3vw,2rem); overflow:hidden; --halfToFull:0}
+.products-overlay.active{transition:none}
+.overlay-driver{height:0;}
+/* El progreso dinámico ajusta translateY vía variable */
+.products-overlay[data-progress]{--p:attr(data-progress percentage);}
+.products-overlay.sync-progress{transition:none;}
+.products-overlay:not(.active){pointer-events:none}
+.products-overlay.active .frame-card .p-card{opacity:0; transform:translateY(30px); animation:cardFade .9s forwards}
+@keyframes cardFade{to{opacity:1; transform:none}}
+.products-overlay.active .product-category .p-card:nth-child(1){animation-delay:.15s}
+.products-overlay.active .product-category .p-card:nth-child(2){animation-delay:.27s}
+.products-overlay.active .product-category .p-card:nth-child(3){animation-delay:.39s}
+.products-overlay.active .product-category .p-card:nth-child(4){animation-delay:.51s}
+.products-overlay-inner{width:100%; max-width:1400px; margin:0 auto; display:flex; flex-direction:column; gap:1.8rem; position:relative}
+.overlay-head{position:relative; padding-bottom:.5rem}
+.overlay-head h1,.overlay-head p,.overlay-head .catalog-tags{display:none}
+.close-products{position:absolute; top:0; right:0; width:44px; height:44px; border:none; background:#111; color:#fff; border-radius:12px; font-size:1.4rem; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:.3s}
+.close-products:hover{background:#000; transform:scale(1.05)}
+/* Ocultar el botón de cierre (X) permanentemente para evitar parpadeos */
+.products-overlay .close-products{display:none !important;}
+.overlay-scroll{overflow:auto; padding-right:.5rem; display:flex; flex-direction:column; gap:3.5rem; height:calc(100vh - 210px)}
+.overlay-scroll::-webkit-scrollbar{width:10px}
+.overlay-scroll::-webkit-scrollbar-track{background:transparent}
+.overlay-scroll::-webkit-scrollbar-thumb{background:#ddd; border-radius:999px}
+.overlay-scroll::-webkit-scrollbar-thumb:hover{background:#bbb}
+
+/* Ajustes dentro del overlay para reutilizar tarjetas */
+.products-overlay .frame-card{background:#fff; backdrop-filter:none; border:1px solid #eee}
+
+/* ===== Vista intermedia (50%) ===== */
+.mid-phrase{display:none; position:relative; z-index:60; align-items:center; justify-content:center; padding:0}
+.mid-phrase .mid-phrase-inner{
+  max-width:1320px;
+  width:100%;
+  display:flex;            /* centrar el bloque principal */
+  justify-content:center;  /* centrado horizontal */
+  align-items:flex-start;
+  position:relative;       /* referencia para .mid-note */
+}
+.mid-phrase .mid-be{
+  font-family:"Luckiest Guy", cursive;
+  font-size:clamp(3rem,8vw,5rem);
+  line-height:.78;
+  color:#f3b7c4;
+  letter-spacing:.01em;
+  text-shadow:0 6px 22px rgba(0,0,0,.08);
+  margin-right:1rem; /* espacio antes del texto */
+  vertical-align:baseline;
+  display:inline-block;
+  /* Estado base: visible e inline. El estado "fuera" se aplica solo en .half vía animación */
+  transform:none;
+  opacity:1;
+}
+.mid-phrase .mid-text{position:relative}
+.mid-phrase .mid-copy{
+  text-transform:uppercase;
+  font-size:clamp(1.1rem,3.4vw,2.3rem);
+  font-weight:900;
+  line-height:1.15;
+  color:#111;
+  letter-spacing:.03em;
+  margin:0;
+  display:inline-block; /* se centra como bloque dentro del flex */
+  position:relative;     /* referencia para la nota */
+  white-space:normal;   /* respeta los <br> definidos */
+  text-align:left;      /* texto alineado a la izquierda */
+}
+.mid-phrase .be-tone{ color:#f3b7c4; }
+.mid-phrase .mid-copy .accent{color:#ff5fa8}
+.mid-phrase .mid-note{
+  position:absolute;
+  top:0.2rem; /* bajada sutil */
+  right:0;    /* alinear con el fin del texto */
+  font-size:clamp(.55rem,1.25vw,.8rem);
+  color:#777;
+  letter-spacing:.04em;
+  /* Estado base visible; la entrada se maneja solo durante .half */
+  transform:none;
+  opacity:1;
+}
+.products-overlay.half .mid-phrase{display:flex}
+.products-overlay.half .mid-phrase .mid-be{transform:translateX(-80%); opacity:0}
+.products-overlay.half .mid-phrase .mid-note{transform:translateX(40%); opacity:0}
+
+/* Animación de ingreso del "BE" desde la izquierda hacia su hueco */
+@keyframes beSlideIn{to{transform:translateX(0); opacity:1}}
+.products-overlay.half .mid-phrase .mid-be{
+  animation:beSnapIn .65s cubic-bezier(.34,1.56,.64,1) .02s forwards;
+}
+
+/* Responsive: en pantallas estrechas, permitir salto y reducir BE */
+@media (max-width: 720px){
+  .mid-phrase .mid-copy{white-space:normal}
+  .mid-phrase .mid-be{font-size:clamp(2.4rem,12vw,3.2rem); margin-right:.6rem}
+  .mid-phrase .mid-note{right:0; top:0rem}
+}
+
+/* Animación de la nota: entra de derecha a izquierda cuando aparece la vista */
+@keyframes noteSlideIn{to{transform:translateX(0); opacity:1}}
+.products-overlay.half .mid-phrase .mid-note{
+  animation:noteSnapIn .65s cubic-bezier(.34,1.56,.64,1) .02s forwards;
+}
+/* En estado activo, asegurar estado final visible/posicionado */
+.products-overlay.active .mid-phrase .mid-be,
+.products-overlay.active .mid-phrase .mid-note{ transform:translateX(0); opacity:1; }
+
+/* Snap más enérgico con ligero overshoot */
+@keyframes beSnapIn{
+  0%{transform:translateX(-80%); opacity:0}
+  60%{transform:translateX(3%); opacity:1}
+  100%{transform:translateX(0); opacity:1}
+}
+@keyframes noteSnapIn{
+  0%{transform:translateX(40%); opacity:0}
+  60%{transform:translateX(-2%); opacity:1}
+  100%{transform:translateX(0); opacity:1}
+}
+
+/* Respeto a usuarios con movimiento reducido */
+@media (prefers-reduced-motion: reduce){
+  .mid-phrase .mid-be,
+  .mid-phrase .mid-note{animation:none !important; transform:none !important; opacity:1 !important}
+}
+/* También mostrar la frase cuando el overlay está al 100% (estado activo) */
+.products-overlay.active .mid-phrase{ display:flex; }
+.products-overlay.active .mid-phrase-inner{padding:0 clamp(16px,4vw,48px)}
+.products-overlay.half .overlay-head,
+.products-overlay.half .overlay-scroll,
+.products-overlay.half .overlay-progress{display:none}
+
+/* Foco visual en la zona media */
+.products-overlay.half{align-items:flex-start; justify-content:flex-start; padding:0}
+.products-overlay.active{align-items:flex-start; justify-content:flex-start}
+.products-overlay.half .products-overlay-inner{position:relative; width:100%; max-width:1400px; margin:0 auto}
+.products-overlay.active .products-overlay-inner{position:relative; width:100%; max-width:1400px; margin:0 auto}
+.products-overlay .products-overlay-inner{position:relative; width:100%; max-width:1400px; margin:0 auto; padding:clamp(36px,7vw,88px) clamp(16px,4vw,48px) 0}
+/* (revert) sin flotación al body en estado 50% */
+.products-overlay.half .mid-phrase-inner{padding:0 clamp(16px,4vw,48px)}
+.products-overlay .mid-phrase-inner{padding:0 clamp(16px,4vw,48px)}
+.products-overlay .mid-phrase{ position:static; margin-top:0; transform:translateY(calc(var(--halfToFull) * var(--mid-phrase-lift))); will-change:transform; z-index:auto; }
+.products-overlay{border-top-left-radius:34px; border-top-right-radius:34px}
+
+/* Colecciones bajo la frase (solo 100%) */
+.collections-row{display:none; padding:0 clamp(1rem,3vw,2rem) clamp(1.5rem,4vw,2.5rem); margin-top:clamp(36px,6vw,80px)}
+.products-overlay.half .collections-row{display:none; margin-top:clamp(12px,2.5vw,20px)}
+.products-overlay.active .collections-row{display:block; margin-top:clamp(12px,2.5vw,20px)}
+.collections-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(.6rem,1.6vw,1rem); max-width:1320px; margin:0 auto}
+.col-card{background:#fff; border-radius:18px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,.08); display:flex; flex-direction:column}
+.col-card img{width:100%; aspect-ratio:1/1; object-fit:cover; opacity:0; transition:opacity .3s ease}
+.products-overlay.active .col-card img{opacity:1}
+.col-card .meta{padding:.55rem .75rem; font-size:.85rem; color:#333}
+.products-overlay.half .collections-row{display:none}
+.products-overlay.active .collections-row{display:block}
+
+@media (max-width:900px){
+  .collections-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:520px){
+  .collections-grid{grid-template-columns:1fr}
+}
+
+/* Ajuste móvil eliminado: la frase mantiene la misma posición en 50% y 100% */
+
+@media (max-width:900px){
+  .overlay-scroll{height:calc(100vh - 190px)}
+}
+@media (max-width:600px){
+  .overlay-head h1{font-size:clamp(1.8rem,9vw,3rem)}
+  .overlay-scroll{gap:2.5rem}
+  .close-products{width:40px; height:40px}
+}

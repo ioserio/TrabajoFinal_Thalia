@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Boutique — One-Frame Cover Scroll</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Luckiest+Guy&family=Shrikhand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="intro-seq">
+  <main>
+
+    <!-- FRAME ÚNICO: dos paneles, el segundo cubre al primero -->
+    <section class="stack">
+
+      <!-- Panel 1 (Hero) -->
+  <div class="panel hero">
+        <div class="bg-gradient"></div>
+        <!-- Imagen grande EVERY DAY (sustituye al texto) -->
+        <div class="bg-word-img" aria-hidden="true">
+          <img src="imagenes/everyday.png" alt="EVERY DAY" loading="eager" />
+        </div>
+
+        <div class="frame-card">
+          <!-- Navegación eliminada según solicitud: se retiró header.nav con brand, side-menu y newsletter -->
+
+          <div class="hero-grid">
+      <img class="hero-img reveal-first" style="--i:1"
+        src="imagenes/modelo.png"
+        alt="Modelo con sudadera">
+
+          </div>
+          <!-- UI superpuesta de portada (brand, menú, newsletter, explore) -->
+          <div class="hero-ui" aria-hidden="false">
+            <div class="hero-brand" aria-label="Marca">PERSONAL</div>
+
+            <nav class="hero-menu" aria-label="Menú principal">
+              <ul>
+                <li><a class="active" href="#" aria-current="page">HOME</a></li>
+                <li><a href="#about">ABOUT</a></li>
+                <li><a href="#collection">2025 COLLECTION</a></li>
+                <li><a href="#store">STORE</a></li>
+                <li><a href="#contact">CONTACT</a></li>
+              </ul>
+            </nav>
+
+            <div class="hero-newsletter" aria-label="Panel de acciones y newsletter">
+              <div class="hlinks">
+                <a href="#store">STORE</a>
+                <a href="#account">ACCOUNT</a>
+                <a href="#newsletter">NEWSLETTER</a>
+              </div>
+              <form class="hform" action="#" onsubmit="return false" aria-label="Suscríbete">
+                <input type="email" placeholder="YOUR EMAIL" aria-label="Your email" />
+                <button type="submit" aria-label="Subscribe">➔</button>
+              </form>
+            </div>
+
+            <div class="hero-tagline" aria-hidden="false">FASHIONABLE</div>
+
+            <!-- Reproductor de música en el área derecha -->
+            <section class="hero-player" aria-label="Reproductor de música">
+              <div class="album-art" style="--art:url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=1200&auto=format&fit=crop')">
+                <div class="art-overlay">
+                  <div class="meta">
+                    <strong>Now Playing</strong>
+                    <span class="track-title">Ambient Bloom</span>
+                  </div>
+                  <div class="controls">
+                    <button class="prev-btn" type="button" aria-label="Anterior">⏮</button>
+                    <button class="play-btn" type="button" aria-label="Play/Pause">▶</button>
+                    <button class="mute-btn" type="button" aria-label="Silenciar">🔇</button>
+                    <button class="next-btn" type="button" aria-label="Siguiente">⏭</button>
+                  </div>
+                  <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <div class="progress-fill"></div>
+                  </div>
+                </div>
+              </div>
+              <audio id="heroAudio" preload="auto" autoplay muted>
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
+              </audio>
+            </section>
+          </div>
+        </div>
+      </div>
+  </main>
+
+  <!-- Espacio de desplazamiento que controlará la progresión del overlay -->
+  <div class="overlay-driver" aria-hidden="true"></div>
+
+  <!-- Indicador de progreso del ascenso del catálogo -->
+  <div class="overlay-progress" aria-hidden="true">
+    <div class="op-track"><div class="op-fill"></div></div>
+    <div class="op-label">0%</div>
+  </div>
+
+  <!-- Overlay emergente de productos -->
+  <div class="products-overlay" id="productsOverlay" aria-hidden="true">
+    <div class="products-overlay-inner">
+      <!-- Vista intermedia (50%): frase destacada -->
+      <section class="mid-phrase" id="midPhrase" aria-hidden="true">
+        <div class="mid-phrase-inner">
+          <p class="mid-copy">
+            <span class="mid-be">BE</span> A PART OF THE FASHION REVOLUTION<br>
+            AND EMBRACE A PERSONALIZED <span class="be-tone">STYLING</span><br>
+            <span class="be-tone">EXPERIENCE</span> LIKE NO OTHER.
+            <small class="mid-note">It’s never too late to look good</small>
+          </p>
+        </div>
+      </section>
+      <!-- Fila de colecciones (visible a 100%, oculta al 50%) -->
+      <section class="collections-row" aria-hidden="true">
+        <div class="collections-grid">
+          <article class="col-card">
+            <img src="https://images.unsplash.com/photo-1548504769-900b70ed122e?q=80&w=800&auto=format&fit=crop" alt="Collection 2022" loading="lazy" />
+            <div class="meta"><span>Collection</span> 2022</div>
+          </article>
+          <article class="col-card">
+            <img src="https://images.unsplash.com/photo-1606913079439-39d3a1a56a4d?q=80&w=800&auto=format&fit=crop" alt="Collection 2023" loading="lazy" />
+            <div class="meta"><span>2023</span> Collection</div>
+          </article>
+          <article class="col-card">
+            <img src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?q=80&w=800&auto=format&fit=crop" alt="Collection 2024" loading="lazy" />
+            <div class="meta"><span>Collection</span> 2024</div>
+          </article>
+          <article class="col-card">
+            <img src="https://images.unsplash.com/photo-1578922864601-79dcc8a01587?q=80&w=800&auto=format&fit=crop" alt="Collection 2025" loading="lazy" />
+            <div class="meta"><span>2025</span> Collection</div>
+          </article>
+        </div>
+      </section>
+      <header class="overlay-head">
+        <button class="close-products" type="button" aria-label="Cerrar catálogo">×</button>
+      </header>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
