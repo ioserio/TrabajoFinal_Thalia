@@ -30,8 +30,8 @@
   --model-zoom-mid:1.05;            /* ligera sobre-escala antes de asentarse */
   --model-zoom-duration:1.35s;      /* duración animación modelo */
   /* Posición de la frase del 50% */
-  --half-quote-left:calc(2.5rem + .9rem); /* alinea con FASHIONABLE */
-  --half-quote-top:58%;                /* 2% más arriba */
+  --half-quote-left:calc(1.6rem + .9rem); /* mover un poco más a la izquierda */
+  --half-quote-top:46%;                /* subir 2 veces más */
   --half-quote-size:clamp(1rem,2.8vw,1.5rem);
 }
 *{box-sizing:border-box}
@@ -188,6 +188,53 @@ body.intro-seq .hero-tagline{opacity:1; transform:translateY(-50%) scale(.5) sca
   100%{transform:translateY(-50%) scale(1) scale(var(--taglineScroll,1))}
 }
 
+/* ========== UI ENTRANCE ANIMATIONS (brand/menu/links/input/album art) ========== */
+@keyframes uiDrop {
+  0% { opacity: 0; transform: translateY(-12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes inputSlideIn {
+  0% { opacity: 0; transform: translateX(16px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes albumArtRise {
+  0% { transform: translateY(16px); }
+  100% { transform: translateY(0); }
+}
+/* Start slightly after page paints; keep easing consistent with hero/model */
+body.intro-seq .hero-brand{
+  opacity: 0; transform: translateY(-12px);
+  animation: uiDrop calc(var(--model-zoom-duration)) cubic-bezier(.18,.72,.24,1) .06s forwards;
+}
+body.intro-seq .hero-menu{
+  opacity: 0; transform: translateY(-12px);
+  animation: uiDrop calc(var(--model-zoom-duration)) cubic-bezier(.18,.72,.24,1) .12s forwards;
+}
+body.intro-seq .hero-newsletter .hlinks{
+  opacity: 0; transform: translateY(-12px);
+  animation: uiDrop calc(var(--model-zoom-duration)) cubic-bezier(.18,.72,.24,1) .18s forwards;
+}
+body.intro-seq .hero-newsletter .hform{
+  opacity: 0; transform: translateX(16px);
+  animation: inputSlideIn calc(var(--model-zoom-duration)) cubic-bezier(.18,.72,.24,1) .24s forwards;
+}
+body.intro-seq .hero-player .album-art{
+  will-change: transform;
+  transform: translateY(16px);
+  animation: albumArtRise calc(var(--model-zoom-duration)) cubic-bezier(.18,.72,.24,1) .28s forwards;
+}
+@media (prefers-reduced-motion: reduce){
+  body.intro-seq .hero-brand,
+  body.intro-seq .hero-menu,
+  body.intro-seq .hero-newsletter .hlinks,
+  body.intro-seq .hero-newsletter .hform,
+  body.intro-seq .hero-player .album-art{
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* Frase 50% (aparece sólo al half-state con slide-in izquierda→derecha) */
 .half-quote{
   position:fixed;
@@ -201,7 +248,7 @@ body.intro-seq .hero-tagline{opacity:1; transform:translateY(-50%) scale(.5) sca
   font-size:clamp(1rem,2.8vw,1.5rem);
   pointer-events:none;
   opacity:0;
-  z-index:46;
+  z-index:36; /* por debajo del overlay (40) para que lo cubra de 50% a 100% */
   display:none;
 }
 @keyframes halfQuoteIn{
@@ -215,6 +262,8 @@ body.half-state .half-quote{
 }
 /* Ocultar al 100% */
 .products-overlay.active ~ .half-quote{ display:none; }
+/* Además, cuando el cuerpo indique overlay activo (clase añadida por JS), ocultar la frase fija */
+body.overlay-active .half-quote{ display:none !important; }
 
 /* ===== Frase en mitad (50%) sobre zona roja ===== */
 .half-quote{
@@ -226,7 +275,7 @@ body.half-state .half-quote{
   font-weight:800;
   letter-spacing:.02em;
   font-size:var(--half-quote-size);
-  z-index:46;              /* por encima del hero (22) y barra (45) */
+  z-index:36;              /* por encima del hero (22) y por debajo del overlay (40) */
   pointer-events:none;
   white-space:nowrap;
 }
@@ -240,7 +289,7 @@ body.half-state .half-quote{
 .products-overlay.active ~ .half-quote{ display:none; }
 
 @media (max-width:900px){
-  .half-quote{ top:58%; font-size:clamp(.95rem,3.4vw,1.1rem); }
+  .half-quote{ top:48%; font-size:clamp(.95rem,3.4vw,1.1rem); }
 }
 @media (prefers-reduced-motion: reduce){
   body.intro-seq .hero-tagline{opacity:1; transform:translateY(-50%) scale(1); animation:none !important}
@@ -486,6 +535,8 @@ body.half-state .half-quote{
 /* En estado activo, asegurar estado final visible/posicionado */
 .products-overlay.active .mid-phrase .mid-be,
 .products-overlay.active .mid-phrase .mid-note{ transform:translateX(0); opacity:1; }
+/* Ocultar la nota pequeña al 100% (sólo mantener el copy principal) */
+.products-overlay.active .mid-phrase .mid-note{ display:none; }
 
 /* Snap más enérgico con ligero overshoot */
 @keyframes beSnapIn{

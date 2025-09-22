@@ -76,6 +76,14 @@ function goBackToHalfSmooth(){
   // Quitar clase active si sigue presente y asegurar radios de borde en transición
   overlay.classList.remove('active');
   overlay.classList.add('half');
+  // Permitir que la frase fija vuelva a mostrarse al 50%
+  document.body.classList.remove('overlay-active');
+  // UI inmediata: esquinas redondeadas y mostrar frase sin requerir otro scroll
+  overlay.classList.add('sync-progress');
+  overlay.style.borderRadius = '34px 34px 0 0';
+  document.body.classList.add('half-state');
+  const halfEl = document.querySelector('.half-quote');
+  if(halfEl){ halfEl.setAttribute('aria-hidden','false'); }
   // Animar retroceso suave 1 -> 0.5
   cancelSmoothLoops();
   animateProgressTo(partialProgress, HALF_EASE_MS);
@@ -149,9 +157,9 @@ function setOverlayProgress(p){
   const taglineScale = clamped <= 0.5 ? (1 - (clamped/0.5)*0.3) : 0.7; // 0%:1, 50%:.7
   document.documentElement.style.setProperty('--taglineScroll', taglineScale.toFixed(3));
   // Estado "half" (frase intermedia) cuando ~50%
-  // Mantener visible la vista intermedia (frase) mientras el progreso está entre 48% y 99.9%,
-  // independientemente de stepIndex, para evitar parpadeos si cambia el flujo
-  const halfOn = clamped >= 0.48 && clamped < 1; 
+  // Mantener visible la vista intermedia (frase) mientras el progreso está entre 48% y < 99%,
+  // y ocultarla antes de activar el 100% para evitar solape con estado activo
+  const halfOn = clamped >= 0.48 && clamped < 0.99; 
 
   // Si bajamos de 1 tras haber estado activo, asegurar que se quite .active
   if(clamped < 1 && overlay.classList.contains('active')){
@@ -167,7 +175,8 @@ function setOverlayProgress(p){
   // Accesibilidad: sincronizar aria-hidden de la frase del 50%
   const halfEl = document.querySelector('.half-quote');
   if(halfEl){
-    halfEl.setAttribute('aria-hidden', halfOn ? 'false' : 'true');
+    // Ocultar al 100% y mostrar sólo durante el estado intermedio
+    halfEl.setAttribute('aria-hidden', (halfOn && !fullOn) ? 'false' : 'true');
   }
   // Half-quote: visibilidad controlada por CSS (body.half-state)
   const colRow = document.querySelector('.collections-row');
@@ -224,6 +233,8 @@ function setOverlayProgress(p){
     overlay.classList.add('active');
     overlay.setAttribute('aria-hidden','false');
     document.body.style.overflow='hidden';
+    // Señal global para estilos al 100%
+    document.body.classList.add('overlay-active');
   // Al estar activo dejamos de capturar el scroll global para que funcione el scroll interno del overlay
   captureVirtualScroll = false; // se reactivará si el usuario inicia gesto de retroceso
   overlay.style.borderRadius = '0';
@@ -249,6 +260,7 @@ function hideOverlay(){
     overlay.removeAttribute('data-progress');
     overlay.classList.remove('active');
     document.body.style.overflow='';
+    document.body.classList.remove('overlay-active');
     overlay.style.transform = 'translateY(100%)';
     if(heroRoot){
       heroRoot.style.filter='';
@@ -320,6 +332,16 @@ window.addEventListener('wheel', (e)=>{
     }
   }
 }, {passive:false});
+
+// En estado 100%, forzar que un solo scroll hacia arriba (sobre el overlay) vuelva a 50%
+// Capturamos en fase de captura para evitar que el scroll interno consuma el gesto
+overlay?.addEventListener('wheel', (e)=>{
+  if(overlayShown && e.deltaY < 0){
+    e.preventDefault();
+    e.stopPropagation();
+    goBackToHalfSmooth();
+  }
+}, {passive:false, capture:true});
 
 // Soporte teclado (flechas / PageUp / PageDown / Space) mientras aún no está activo
 window.addEventListener('keydown', (e)=>{
