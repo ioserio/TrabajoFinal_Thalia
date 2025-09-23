@@ -242,12 +242,19 @@ function setOverlayProgress(p){
     // Asegurar que el estado intermedio quede desactivado
     overlay.classList.remove('half');
     document.body.classList.remove('half-state');
+    // Habilitar foco en colecciones al 100%
+    setCollectionsFocusable(true);
   }
 
   // (Auto-hide removido: ahora se controla manualmente en el primer gesto de usuario)
   // Si por algún motivo overlayShown es falso (ej. cierre) aseguramos captura activa
   if(!overlayShown && !captureVirtualScroll){
     captureVirtualScroll = true;
+  }
+
+  // Si dejamos el 100% (p.ej., retrocedemos al 50%), quitar foco habilitado
+  if(clamped < 1){
+    setCollectionsFocusable(false);
   }
 }
 
@@ -429,6 +436,49 @@ if(manualProgressMode && overlay){
   overlay.style.transform = 'translateY(100%)';
   overlay.style.borderRadius = '34px 34px 0 0';
 }
+
+// --- Navegación de colecciones (al 100%) ---
+function getCollectionTarget(card){
+  try{
+    const txt = card.querySelector('.meta')?.textContent || '';
+    const year = (txt.match(/20\d{2}/) || [null])[0];
+    const url = 'productos.html' + (year ? (`?c=${encodeURIComponent(year)}`) : '');
+    return url;
+  } catch { return 'productos.html'; }
+}
+// Habilitar/deshabilitar foco/ARIA cuando está al 100%
+function setCollectionsFocusable(enabled){
+  const cards = overlay?.querySelectorAll('.collections-row .col-card');
+  if(!cards) return;
+  cards.forEach(card=>{
+    if(enabled){
+      card.setAttribute('tabindex','0');
+      card.setAttribute('role','link');
+      card.setAttribute('aria-label', (card.querySelector('.meta')?.textContent?.trim() || 'Open collection'));
+    } else {
+      card.removeAttribute('tabindex');
+      card.removeAttribute('role');
+      card.removeAttribute('aria-label');
+    }
+  });
+}
+// Event delegation: click/keyboard
+overlay?.querySelector('.collections-row')?.addEventListener('click', (e)=>{
+  const card = e.target.closest('.col-card');
+  if(!card) return;
+  if(!overlayShown) return; // solo navegar al 100%
+  const url = getCollectionTarget(card);
+  window.location.href = url;
+});
+overlay?.querySelector('.collections-row')?.addEventListener('keydown', (e)=>{
+  if(e.key !== 'Enter' && e.key !== ' ') return;
+  const card = e.target.closest('.col-card');
+  if(!card) return;
+  if(!overlayShown) return;
+  e.preventDefault();
+  const url = getCollectionTarget(card);
+  window.location.href = url;
+});
 
 // --- Hero menu active indicator ---
 document.querySelectorAll('.hero-menu a').forEach(a=>{

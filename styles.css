@@ -16,7 +16,7 @@
   --model-lift:-32px; /* levantar la imagen del modelo (valor negativo = sube) */
   /* Levantar la frase del 50% (valor negativo = sube). Ajusta a gusto */
   /* Ajuste fino: aún más abajo al 100% */
-  --mid-phrase-lift:-10vh;
+  --mid-phrase-lift:-4.5vh;
   /* Mantener fija la posición de la frase entre 50% y 100% */
   /* Parámetros efecto EVERYDAY */
   --every-float:18px;              /* amplitud vertical */
@@ -33,6 +33,10 @@
   --half-quote-left:calc(1.6rem + .9rem); /* mover un poco más a la izquierda */
   --half-quote-top:46%;                /* subir 2 veces más */
   --half-quote-size:clamp(1rem,2.8vw,1.5rem);
+  /* Duración/easing compartida para animaciones de tarjetas e imágenes de colecciones */
+  --col-anim-duration:2s;
+  --col-anim-stagger:.2s; /* opcional; no usado si se busca inicio simultáneo */
+  --col-img-duration:var(--col-anim-duration); /* misma duración para tarjeta e imagen */
 }
 *{box-sizing:border-box}
 html,body{height:100%; overflow:hidden;}
@@ -566,7 +570,7 @@ body.half-state .half-quote{
 .products-overlay.half{align-items:flex-start; justify-content:flex-start; padding:0}
 .products-overlay.active{align-items:flex-start; justify-content:flex-start}
 .products-overlay.half .products-overlay-inner{position:relative; width:100%; max-width:1400px; margin:0 auto}
-.products-overlay.active .products-overlay-inner{position:relative; width:100%; max-width:1400px; margin:0 auto}
+.products-overlay.active .products-overlay-inner{position:relative; width:100%; max-width:1400px; margin:0 auto; padding-top:clamp(8px, 1vw, 12px)}
 .products-overlay .products-overlay-inner{position:relative; width:100%; max-width:1400px; margin:0 auto; padding:clamp(36px,7vw,88px) clamp(16px,4vw,48px) 0}
 /* (revert) sin flotación al body en estado 50% */
 .products-overlay.half .mid-phrase-inner{padding:0 clamp(16px,4vw,48px)}
@@ -577,11 +581,64 @@ body.half-state .half-quote{
 /* Colecciones bajo la frase (solo 100%) */
 .collections-row{display:none; padding:0 clamp(1rem,3vw,2rem) clamp(1.5rem,4vw,2.5rem); margin-top:clamp(36px,6vw,80px)}
 .products-overlay.half .collections-row{display:none; margin-top:clamp(12px,2.5vw,20px)}
-.products-overlay.active .collections-row{display:block; margin-top:clamp(12px,2.5vw,20px)}
-.collections-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(.6rem,1.6vw,1rem); max-width:1320px; margin:0 auto}
+.products-overlay.active .collections-row{display:block; margin-top:clamp(6px, 1.2vw, 14px)}
+.collections-grid{display:grid; grid-template-columns:repeat(4, 1fr); gap:clamp(.6rem,1.6vw,1rem); max-width:1400px; margin:0 auto}
 .col-card{background:#fff; border-radius:18px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,.08); display:flex; flex-direction:column}
-.col-card img{width:100%; aspect-ratio:1/1; object-fit:cover; opacity:0; transition:opacity .3s ease}
+.products-overlay.active .col-card{cursor:pointer}
+.products-overlay.active .collections-row .col-card{
+  transition: transform .28s ease, box-shadow .28s ease;
+}
+.products-overlay.active .collections-row .col-card:hover,
+.products-overlay.active .collections-row .col-card:focus-visible{
+  animation: none;
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 14px 32px rgba(0,0,0,.14);
+}
+.col-card img{width:100%; aspect-ratio:4/5; object-fit:contain; object-position:center 10%; background:#fff; opacity:1; transition:none}
 .products-overlay.active .col-card img{opacity:1}
+/* ===== Animaciones de Colecciones (sin desvanecido) ===== */
+@keyframes cardGrowIn {
+  0% { transform: scale(.96); }
+  100% { transform: scale(1); }
+}
+@keyframes imgSettleIn {
+  0% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+/* Aplicar animaciones cuando el overlay está al 100% */
+.products-overlay.active .collections-row .col-card{
+  will-change: transform;
+  animation: cardGrowIn var(--col-anim-duration) cubic-bezier(.22,.61,.36,1) 0s;
+}
+.products-overlay.active .collections-row .col-card img{
+  will-change: transform;
+  transform-origin: center center;
+     animation: imgSettleIn var(--col-img-duration) cubic-bezier(.22,.61,.36,1) 0s forwards;
+}
+/* Hover lift (colocado después de las reglas de animación para ganar en la cascada) */
+.products-overlay.active .collections-row .col-card:hover,
+.products-overlay.active .collections-row .col-card:focus-visible{
+  animation: none !important;
+  transform: translateY(-8px) scale(1.02) !important;
+  box-shadow: 0 14px 32px rgba(0,0,0,.14);
+}
+/* Stagger: mismo delay para tarjeta e imagen para mantener sincronía */
+/* Sin stagger: todas las tarjetas e imágenes inician al mismo tiempo */
+/* Sin stagger: las 4 tarjetas e imágenes inician a la vez con el mismo timing */
+@media (prefers-reduced-motion: reduce){
+  .products-overlay.active .collections-row .col-card,
+  .products-overlay.active .collections-row .col-card img{
+    animation: none !important;
+    transform: none !important;
+  }
+  .products-overlay.active .collections-row .col-card{
+    transition: box-shadow .2s ease;
+  }
+  .products-overlay.active .collections-row .col-card:hover,
+  .products-overlay.active .collections-row .col-card:focus-visible{
+    box-shadow: 0 12px 28px rgba(0,0,0,.12);
+  }
+}
 .col-card .meta{padding:.55rem .75rem; font-size:.85rem; color:#333}
 .products-overlay.half .collections-row{display:none}
 .products-overlay.active .collections-row{display:block}
