@@ -28,7 +28,8 @@ const driverHeight = () => 0; // desactivado: no usamos desplazamiento natural, 
 let manualProgressMode = true; // usamos modo progresivo
 let startedScrollProgress = false; // marca cuando ya iniciamos progresión por scroll
 let virtualProgress = 0; // progreso sintético 0..1 controlado por rueda/touch
-let captureVirtualScroll = true; // mientras sea true, el scroll físico no mueve la página
+// Activar scroll virtual solo en la portada (body.intro-seq); en otras páginas, permitir scroll normal
+let captureVirtualScroll = (document.body && document.body.classList.contains('intro-seq'));
 let renderedProgress = 0; // progreso realmente aplicado (para easing)
 let rafId = null; // id de requestAnimationFrame activo
 const EASE_FACTOR = 0.16; // ajustar (más alto = responde más rápido)
@@ -38,6 +39,82 @@ let everydayHidden = false; // controla si EVERYDAY ya se ocultó antes de inici
 let hideInProgress = false; // evita múltiples disparos durante la transición
 // Micro-animación para el salto 0→50% con sensación fina
 let microRafId = null; // RAF específico para micro-animación
+
+// --- LOGIN/REGISTRO FORM SLIDE ---
+document.addEventListener('DOMContentLoaded', function() {
+  const btnRegistro = document.getElementById('btn-registro');
+  const btnVolver = document.getElementById('btn-volver-login');
+  const loginForm = document.getElementById('login-form');
+  const registroForm = document.getElementById('registro-form');
+  const loginTitle = document.getElementById('login-title');
+
+  if (btnRegistro && btnVolver && loginForm && registroForm) {
+    btnRegistro.addEventListener('click', function(e) {
+      e.preventDefault();
+      loginForm.classList.add('slide-out');
+      loginTitle.textContent = 'Registro';
+      setTimeout(() => {
+        loginForm.style.display = 'none';
+        registroForm.style.display = 'flex';
+        registroForm.classList.add('slide-in');
+      }, 350);
+    });
+
+    btnVolver.addEventListener('click', function(e) {
+      e.preventDefault();
+      registroForm.classList.remove('slide-in');
+      registroForm.classList.add('slide-out');
+      loginTitle.textContent = 'Iniciar Sesión';
+      setTimeout(() => {
+        registroForm.style.display = 'none';
+        loginForm.style.display = 'flex';
+        loginForm.classList.remove('slide-out');
+      }, 350);
+    });
+  }
+
+  // Mostrar error de login si existe en la URL
+  try{
+    const params = new URLSearchParams(window.location.search);
+    if(params.get('error') === '1'){
+      const err = document.getElementById('login-error');
+      if(err){ err.style.display = 'block'; }
+    }
+    if(params.get('success') === '1'){
+      const t = document.getElementById('toast');
+      if(t){
+        t.style.display = 'block';
+        setTimeout(()=>{ t.style.display = 'none'; }, 5000);
+      }
+    }
+  } catch {}
+
+  // Permitir escribir espacios en inputs: evitar que el listener global capture la barra espaciadora
+  const editableSelectors = 'input[type="text"], input[type="email"], input[type="tel"], input[type="password"], textarea';
+  document.querySelectorAll(editableSelectors).forEach(inp => {
+    inp.addEventListener('keydown', (e) => {
+      if (e.key === ' ') {
+        // No prevenir default; solo evitar que burbujee hasta window
+        e.stopPropagation();
+      }
+    });
+  });
+
+  // Modal Contacto: abrir/cerrar
+  const contactModal = document.getElementById('contactModal');
+  const openContactLinks = document.querySelectorAll('a[href="#contact"], a.contact-link');
+  const closeBtn = contactModal ? contactModal.querySelector('.modal-close') : null;
+  if (contactModal && openContactLinks.length){
+    openContactLinks.forEach(a=>{
+      a.addEventListener('click', (e)=>{ e.preventDefault(); contactModal.classList.add('open'); });
+    });
+    closeBtn?.addEventListener('click', ()=> contactModal.classList.remove('open'));
+    contactModal.addEventListener('click', (e)=>{
+      if(e.target === contactModal){ contactModal.classList.remove('open'); }
+    });
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') contactModal.classList.remove('open'); });
+  }
+});
 const HALF_EASE_MS = 260; // duración de la animación al 50%
 function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
 function cancelSmoothLoops(){
@@ -302,7 +379,7 @@ let lastY = window.scrollY;
 // Eliminamos efecto de scroll nativo: no se necesita listener 'scroll' para progreso
 
 // También permitir activar por gesto wheel fuerte sin desplazamiento (ej. en top con wheel)
-window.addEventListener('wheel', (e)=>{
+if (overlay) window.addEventListener('wheel', (e)=>{
   // En modo captura virtual: usamos la rueda para modificar el progreso SIN desplazar la página.
   if(captureVirtualScroll && !overlayShown){
     e.preventDefault(); // bloquea scroll físico
@@ -352,6 +429,15 @@ overlay?.addEventListener('wheel', (e)=>{
 
 // Soporte teclado (flechas / PageUp / PageDown / Space) mientras aún no está activo
 window.addEventListener('keydown', (e)=>{
+  // Si el foco está en un campo editable (inputs, textareas, contenteditable), no interceptar
+  const t = e.target;
+  const ae = document.activeElement;
+  if (
+    (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) ||
+    (ae && (ae.tagName === 'INPUT' || ae.tagName === 'TEXTAREA' || ae.isContentEditable))
+  ) {
+    return; // permitir escribir espacios y demás teclas en formularios
+  }
   // Si estamos en 100%, permitir volver a 50% con ArrowUp/PageUp
   if(overlayShown){
     if(e.key==='ArrowUp' || e.key==='PageUp'){
@@ -393,7 +479,7 @@ window.addEventListener('touchmove', (e)=>{
   const currentY = e.touches[0].clientY;
   const delta = touchStartY - currentY; // gesto arriba -> positivo
   // Si estamos en 100%, un swipe hacia abajo vuelve a 50%
-  if(overlayShown){
+  if(overlay && overlayShown){
     if(delta < -10){
       e.preventDefault();
       goBackToHalfSmooth();
@@ -401,7 +487,7 @@ window.addEventListener('touchmove', (e)=>{
     }
     return;
   }
-  if(!overlayShown){
+  if(overlay && !overlayShown && captureVirtualScroll){
     e.preventDefault();
     if(Math.abs(delta) > 10){
       if(delta > 0){ // swipe up avanza
@@ -483,7 +569,13 @@ overlay?.querySelector('.collections-row')?.addEventListener('keydown', (e)=>{
 // --- Hero menu active indicator ---
 document.querySelectorAll('.hero-menu a').forEach(a=>{
   a.addEventListener('click', (ev)=>{
-    // No navegación real; sólo demo de indicador
+    const href = (a.getAttribute('href') || '').trim();
+    const isHash = href === '' || href === '#' || href.startsWith('#') || href.startsWith('javascript:');
+    if (!isHash) {
+      // Es un enlace real (p.ej. productos.html): permitir navegación
+      return;
+    }
+    // Para enlaces ancla: sólo demo de indicador
     ev.preventDefault();
     document.querySelectorAll('.hero-menu a').forEach(x=>{
       x.classList.remove('active');

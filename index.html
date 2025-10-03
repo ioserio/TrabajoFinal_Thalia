@@ -38,21 +38,22 @@
               <ul>
                 <li><a class="active" href="#" aria-current="page">HOME</a></li>
                 <li><a href="#about">ACERCA DE</a></li>
+                  <li><a href="login.html">INGRESAR</a></li>
                 <li><a href="#collection">COLECCIÓN 2025</a></li>
-                <li><a href="#store">TIENDA</a></li>
+                <li><a href="productos.html">TIENDA</a></li>
                 <li><a href="#contact">CONTACTO</a></li>
               </ul>
             </nav>
 
             <div class="hero-newsletter" aria-label="Panel de acciones y newsletter">
               <div class="hlinks">
-                <a href="#store">TIENDA</a>
-                <a href="#account">CUENTA</a>
+                <a href="productos.html">TIENDA</a>
+                <a href="login.html">INGRESAR</a>
                 <a href="#newsletter">MAS INFORMACION</a>
               </div>
-              <form class="hform" action="#" onsubmit="return false" aria-label="Suscríbete">
-                <input type="email" placeholder="TU EMAIL" aria-label="Your email" />
-                <button type="submit" aria-label="Subscribe">➔</button>
+              <form class="hform" id="newsletterForm" action="suscribir.php" method="POST" aria-label="Suscríbete">
+                <input type="email" name="email" placeholder="TU EMAIL" aria-label="Tu email" required />
+                <button type="submit" aria-label="Suscribirse">➔</button>
               </form>
             </div>
 
@@ -137,6 +138,30 @@
       <header class="overlay-head">
         <button class="close-products" type="button" aria-label="Cerrar catálogo">×</button>
       </header>
+    </div>
+  </div>
+
+  <!-- Modal de Contacto -->
+  <div id="contactModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button type="button" class="modal-close" aria-label="Cerrar">×</button>
+      <h3>Contáctanos</h3>
+      <form class="contact-form" action="contacto.php" method="POST">
+        <label for="c_nombre">Nombre</label>
+        <input id="c_nombre" name="nombre" type="text" required placeholder="Tu nombre" />
+
+        <label for="c_email">Correo</label>
+        <input id="c_email" name="email" type="email" required placeholder="tu@correo.com" />
+
+        <label for="c_asunto">Asunto (opcional)</label>
+        <input id="c_asunto" name="asunto" type="text" placeholder="Asunto" />
+
+        <label for="c_mensaje">Mensaje</label>
+        <textarea id="c_mensaje" name="mensaje" rows="4" required placeholder="Cuéntanos en qué te ayudamos"></textarea>
+
+        <button type="submit" class="main-btn">Enviar</button>
+        <a class="wa-link" target="_blank" rel="noopener" href="https://wa.me/51999999999?text=Hola%20Boutique,%20necesito%20informaci%C3%B3n" aria-label="WhatsApp">Contactar por WhatsApp</a>
+      </form>
     </div>
   </div>
 

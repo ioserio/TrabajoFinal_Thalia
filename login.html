@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <a href="index.php" class="home-link" title="Volver al inicio" aria-label="Volver al inicio">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 3l9 8-1.5 1.5L18 10.5V20h-5v-5h-2v5H6v-9.5L4.5 12.5 3 11l9-8z"/>
+            </svg>
+        </a>
+        <div id="login-section">
+            <div id="toast" class="toast" style="display:none;">Creación exitosa</div>
+            <h2 id="login-title">Iniciar Sesión</h2>
+            <form id="login-form" action="login.php" method="POST">
+                <label for="correo">Usuario o Correo:</label>
+                <input type="email" id="correo" name="correo" required autocomplete="email">
+
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password">
+
+                <button type="submit">Ingresar</button>
+                <div id="login-error" class="form-error" style="display:none;">Correo o contraseña incorrectos.</div>
+                <button id="btn-registro" class="main-btn only-login" type="button">Registrarse</button>
+            </form>
+        </div>
+
+    <form id="registro-form" action="registrar_usuario.php" method="POST" style="display:none; flex-direction:column; width:100%; gap:1.1rem;">
+            <label for="dni">DNI:</label>
+            <input type="text" id="dni" name="dni" required maxlength="8" pattern="[0-9]{8}">
+
+            <label for="nombres">Nombres:</label>
+            <input type="text" id="nombres" name="nombres" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ]+( [A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$" autocomplete="name">
+
+            <label for="correo">Correo:</label>
+            <input type="email" id="correo" name="correo" required>
+
+            <label for="password_reg">Contraseña:</label>
+            <input type="password" id="password_reg" name="password_reg" required>
+
+            <label for="telefono">Teléfono:</label>
+            <input type="tel" id="telefono" name="telefono" required pattern="[0-9]{9,15}">
+
+            <label>Género:</label>
+            <div style="display:flex; gap:1.5rem; margin-bottom:0.5rem;">
+                <label><input type="radio" name="genero" value="hombre" required> Hombre</label>
+                <label><input type="radio" name="genero" value="mujer"> Mujer</label>
+            </div>
+
+            <label style="display:flex; align-items:center; gap:0.6rem;">
+                <input type="checkbox" name="terminos" required>
+                Acepto los <a href="#" style="color:var(--rose-2);text-decoration:underline;">términos y condiciones</a>
+            </label>
+
+            <button type="submit" class="main-btn">Registrarme</button>
+            <button id="btn-volver-login" style="background:transparent;color:var(--rose-2);border:1.5px solid var(--rose-2);margin-top:0.7rem;">Volver a iniciar sesión</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
