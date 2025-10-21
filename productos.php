@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!doctype html>
 <html lang="es">
 <head>
@@ -18,6 +21,7 @@
     .shop-sort{border:1px solid #e7e7e7; border-radius:10px; padding:.4rem .5rem; background:#fff}
     .topbar .right-actions{margin-left:auto; display:flex; gap:.5rem; align-items:center}
     .topbar .right-actions a{color:#222; text-decoration:none; font-size:.82rem; padding:.4rem .7rem; border-radius:999px; border:1px solid #e7e7e7; background:#fff}
+    .user-greet{font-size:.85rem; color:#333; padding:.4rem .6rem; border:1px solid #e7e7e7; border-radius:999px; background:#fff}
   /* Botón carrito */
   .cart-btn{position:relative; display:inline-flex; align-items:center; gap:.45rem; padding:.4rem .7rem; border-radius:999px; border:1px solid #e7e7e7; background:#fff; cursor:pointer}
   .cart-btn .icon{font-size:1rem}
@@ -37,8 +41,7 @@
     // Ajustar acciones de sesión en la barra superior si vienes con sesión iniciada (igual que index.php)
     document.addEventListener('DOMContentLoaded', function(){
       const params = new URLSearchParams(location.search);
-      const qsUser = params.get('u'); // opcional: podríamos pasar estado por query si se desea
-      // No gestionamos sesión aquí con PHP, pero dejamos hooks para enlazar con login/logout si se requiere
+      const qsUser = params.get('u'); // opcional
     });
   </script>
   </head>
@@ -51,7 +54,12 @@
       <strong>Catálogo</strong>
     </nav>
     <div class="right-actions">
-      <a href="login.html">Ingresar</a>
+      <?php if(isset($_SESSION['user_id'])): ?>
+        <span class="user-greet">Hola, <?php echo htmlspecialchars($_SESSION['nombres'] ?? 'Usuario'); ?></span>
+        <a href="logout.php">Cerrar sesión</a>
+      <?php else: ?>
+        <a href="login.html">Ingresar</a>
+      <?php endif; ?>
       <a href="index.php#contact" class="contact-link">Contacto</a>
       <button type="button" class="cart-btn" id="openCartBtn" aria-label="Carrito">
         <span class="icon">🛒</span>
@@ -299,7 +307,7 @@
       <h3>Tu Carrito</h3>
       <div id="cartList" style="display:grid; gap:.6rem; margin:.4rem 0 .6rem;"></div>
       <div style="display:flex; justify-content:space-between; align-items:center; margin-top:.6rem;">
-  <strong>Total: <span id="cartTotal">S/0.00</span></strong>
+        <strong>Total: <span id="cartTotal">S/0.00</span></strong>
         <div style="display:flex; gap:.5rem;">
           <button type="button" id="clearCartBtn" style="background:transparent;color:var(--rose-2);border:1.5px solid var(--rose-2); border-radius:12px; padding:.6rem .9rem; font-weight:700;">Vaciar</button>
           <button type="button" id="checkoutBtn" class="main-btn" style="width:auto; padding:.6rem 1rem;">Finalizar compra</button>
@@ -440,7 +448,7 @@
             </div>`;
           listEl.appendChild(row);
         });
-  totalEl.textContent = 'S/' + total.toFixed(2);
+        totalEl.textContent = 'S/' + total.toFixed(2);
         listEl.querySelectorAll('button[data-act$="_local"]').forEach(b=>{
           b.addEventListener('click', ()=>{
             const act = b.dataset.act; const name = b.dataset.name;
@@ -479,7 +487,7 @@
             </div>`;
           listEl.appendChild(row);
         });
-  totalEl.textContent = 'S/' + total.toFixed(2);
+        totalEl.textContent = 'S/' + total.toFixed(2);
         listEl.querySelectorAll('button[data-act$="_server"]').forEach(b=>{
           b.addEventListener('click', async ()=>{
             const act = b.dataset.act; const id = parseInt(b.dataset.id||'0',10);
