@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 03-10-2025 a las 19:25:06
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.0.30
+-- Servidor: sql306.infinityfree.com
+-- Tiempo de generación: 21-10-2025 a las 08:52:19
+-- Versión del servidor: 11.4.7-MariaDB
+-- Versión de PHP: 7.2.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `boutique`
+-- Base de datos: `if0_39093659_boutique`
 --
 
 -- --------------------------------------------------------
@@ -68,7 +69,9 @@ CREATE TABLE `contactos` (
 
 INSERT INTO `contactos` (`id`, `nombre`, `email`, `asunto`, `mensaje`, `created_at`) VALUES
 (1, 'Andrea Martinez', 'a@gmail.com', 'Mejoren el color', 'te cuento que debes mejorar el color de la pagina.', '2025-10-03 17:14:00'),
-(2, 'asdasd', 'asdasd@gmail.com', 'asdasd', 'asdasd', '2025-10-03 17:21:42');
+(2, 'asdasd', 'asdasd@gmail.com', 'asdasd', 'asdasd', '2025-10-03 17:21:42'),
+(3, 'fdssdf', 'tu@gmail.com', 'asdasd', 'asdasd', '2025-10-03 17:34:15'),
+(4, 'Ricardo Merino', 'rmerino1015@gmail.com', 'Prueba', 'Hola , quiesiera decirles que esta es una prueba.', '2025-10-21 12:16:35');
 
 -- --------------------------------------------------------
 
@@ -152,7 +155,10 @@ INSERT INTO `suscriptores` (`id`, `email`, `created_at`) VALUES
 (5, 'luis.penas.ci@iestpvillamaria.edu.pe', '2025-10-03 17:08:33'),
 (6, 'asd@gmail.com', '2025-10-03 17:08:57'),
 (7, 'a_martinez@gmail.com', '2025-10-03 17:09:40'),
-(8, '1015@gmail.com', '2025-10-03 17:21:07');
+(8, '1015@gmail.com', '2025-10-03 17:21:07'),
+(9, 'andrea.martinez.ci@gmail.com', '2025-10-03 17:33:37'),
+(10, 'facturacion1@rame.pe', '2025-10-04 23:03:39'),
+(11, 'tu@gmail.com', '2025-10-20 16:11:44');
 
 -- --------------------------------------------------------
 
@@ -168,18 +174,22 @@ CREATE TABLE `usuarios` (
   `telefono` varchar(15) NOT NULL,
   `genero` enum('hombre','mujer') NOT NULL,
   `password` varchar(255) NOT NULL,
-  `terminos` tinyint(1) NOT NULL DEFAULT 0
+  `terminos` tinyint(1) NOT NULL DEFAULT 0,
+  `token_recuperacion` varchar(64) DEFAULT NULL,
+  `token_expira` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `dni`, `nombres`, `correo`, `telefono`, `genero`, `password`, `terminos`) VALUES
-(1, '48472554', 'ReneRicardoMerinoCondori', 'rmerino857@gmail.com', '923486317', 'hombre', '$2y$10$ETqKAe9AM/44ZCF9phWEheNtIosjFOFBi7WCTJE9OlgbOWFX2E7M.', 1),
-(2, '73368759', 'Luz Rojas', 'lr@gmail.com', '973158458', 'mujer', '$2y$10$8QjPmO0r7e8/eEiFsCVf4O.uWoAPy7A.fuAx1d0wY5iCi4qPk2hU2', 1),
-(3, '48472553', 'Ricardo Merino', 'rmerino856@gmail.com', '923486317', 'hombre', '$2y$10$jEHpN.vswzIMOTb8xEbfo.WX8XmpDECZi.prNkGof7oJcvC125Lzq', 1),
-(4, '15975312', 'saddsaf', '1015@gmail.com', '923486317', 'hombre', '$2y$10$HZZ1SdZiX/CNgtsaIVT/GOUjoztn82pP5XX87dXhoP08RViCeh3j.', 1);
+INSERT INTO `usuarios` (`id`, `dni`, `nombres`, `correo`, `telefono`, `genero`, `password`, `terminos`, `token_recuperacion`, `token_expira`) VALUES
+(1, '48472554', 'ReneRicardoMerinoCondori', 'rmerino857@gmail.com', '923486317', 'hombre', '$2y$10$pAk/KNiN5GeQxHmEANNKFeF06fgvGOz6NcXK/AfzYt8BkbrPEc5wG', 1, NULL, NULL),
+(2, '73368759', 'Luz Rojas', 'lr@gmail.com', '973158458', 'mujer', '$2y$10$8QjPmO0r7e8/eEiFsCVf4O.uWoAPy7A.fuAx1d0wY5iCi4qPk2hU2', 1, NULL, NULL),
+(3, '48472553', 'Ricardo Merino', 'rmerino856@gmail.com', '923486317', 'hombre', '$2y$10$jEHpN.vswzIMOTb8xEbfo.WX8XmpDECZi.prNkGof7oJcvC125Lzq', 1, NULL, NULL),
+(4, '15975312', 'saddsaf', '1015@gmail.com', '923486317', 'hombre', '$2y$10$HZZ1SdZiX/CNgtsaIVT/GOUjoztn82pP5XX87dXhoP08RViCeh3j.', 1, NULL, NULL),
+(5, '72265557', 'andrea', 'andreamartinez@gmail.com', '920723769', 'mujer', '$2y$10$uwmI0mQ0AZICobXR6cgK3e7nYgmipK/uvgss0v/lQE62C/cK5C4jS', 1, '25b29dbeae5afcef80cfac551ed649d54c58a469fa6b129421943e10f275cc9b', '2025-10-20 09:07:19'),
+(6, '90334521', 'andrea', 'andrea.martinez.ci@iestpvillamaria.edu.pe', '920723769', 'mujer', '$2y$10$GWsYBK2jIcXP.RHUP5c3eu3x3uukp6SlktfHufyZVPN/CBC3SQJEO', 1, NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -269,7 +279,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `contactos`
 --
 ALTER TABLE `contactos`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_pedido`
@@ -299,13 +309,13 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `suscriptores`
 --
 ALTER TABLE `suscriptores`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas

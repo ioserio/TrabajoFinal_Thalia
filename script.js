@@ -106,13 +106,34 @@ document.addEventListener('DOMContentLoaded', function() {
   const closeBtn = contactModal ? contactModal.querySelector('.modal-close') : null;
   if (contactModal && openContactLinks.length){
     openContactLinks.forEach(a=>{
-      a.addEventListener('click', (e)=>{ e.preventDefault(); contactModal.classList.add('open'); });
+      a.addEventListener('click', (e)=>{
+        e.preventDefault();
+        // Si el modal de Acerca de está abierto, ciérralo para que Contacto quede encima
+        const am = document.getElementById('aboutModal');
+        if (am && am.classList.contains('open')) am.classList.remove('open');
+        contactModal.classList.add('open');
+      });
     });
     closeBtn?.addEventListener('click', ()=> contactModal.classList.remove('open'));
     contactModal.addEventListener('click', (e)=>{
       if(e.target === contactModal){ contactModal.classList.remove('open'); }
     });
     window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') contactModal.classList.remove('open'); });
+  }
+
+  // Modal Acerca de: abrir/cerrar
+  const aboutModal = document.getElementById('aboutModal');
+  const openAboutLinks = document.querySelectorAll('a[href="#about"], a.about-link');
+  const aboutCloseBtn = aboutModal ? aboutModal.querySelector('.modal-close') : null;
+  if (aboutModal && openAboutLinks.length){
+    openAboutLinks.forEach(a=>{
+      a.addEventListener('click', (e)=>{ e.preventDefault(); aboutModal.classList.add('open'); });
+    });
+    aboutCloseBtn?.addEventListener('click', ()=> aboutModal.classList.remove('open'));
+    aboutModal.addEventListener('click', (e)=>{
+      if(e.target === aboutModal){ aboutModal.classList.remove('open'); }
+    });
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') aboutModal.classList.remove('open'); });
   }
 });
 const HALF_EASE_MS = 260; // duración de la animación al 50%
