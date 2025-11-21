@@ -1,9 +1,9 @@
 <?php
 // Archivo de conexión a la base de datos boutique
-$host = 'sql306.infinityfree.com';
-$user = 'if0_39093659';
-$password = '923486317';
-$db = 'if0_39093659_boutique';
+$host = 'localhost';
+$user = 'root';
+$password = '';
+$db = 'boutique';
 
 $conn = new mysqli($host, $user, $password, $db);
 

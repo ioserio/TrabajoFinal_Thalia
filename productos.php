@@ -130,7 +130,7 @@ session_start();
             <button>Añadir</button>
           </article>
           <article class="p-card reveal-late" data-name="Sudadera Oversized" data-price="59.00">
-            <img src="https://images.unsplash.com/photo-1520970016086-3f4f5a0d8c1f?q=80&w=800&auto=format&fit=crop" alt="Sudadera oversized crema" />
+            <img src="https://www.desire.pe/cdn/shop/files/183.png?v=1698265393&width=600" alt="Sudadera oversized crema" />
             <h3>Sudadera Oversized</h3>
             <p class="price">S/59.00</p>
             <button>Añadir</button>
@@ -142,7 +142,7 @@ session_start();
             <button>Añadir</button>
           </article>
           <article class="p-card reveal-late" data-name="Chaqueta Denim Azul" data-price="74.00">
-            <img src="https://images.unsplash.com/photo-1520974735194-6c7d8f2d5b57?q=80&w=800&auto=format&fit=crop" alt="Chaqueta denim azul" />
+            <img src="https://m.media-amazon.com/images/I/51uJbq-5FjL._AC_.jpg" alt="Chaqueta denim azul" />
             <h3>Chaqueta Denim Azul</h3>
             <p class="price">S/74.00</p>
             <button>Añadir</button>
@@ -184,7 +184,7 @@ session_start();
             <button>Añadir</button>
           </article>
           <article class="p-card reveal-late" data-name="Bota Chelsea Negra" data-price="120.00">
-            <img src="https://images.unsplash.com/photo-1528701800489-20be9ee0d07e?q=80&w=800&auto=format&fit=crop" alt="Bota chelsea negra" />
+            <img src="https://shoppinghavana.com/wp-content/uploads/2025/05/file_00000000c53861f899d48490a88dc305.jpg" alt="Bota chelsea negra" />
             <h3>Bota Chelsea Negra</h3>
             <p class="price">S/120.00</p>
             <button>Añadir</button>
@@ -208,19 +208,19 @@ session_start();
         </header>
         <div class="product-grid" data-cat="accesorios">
           <article class="p-card reveal-first" data-name="Bolso Tote Lona" data-price="45.00">
-            <img src="https://images.unsplash.com/photo-1518544801958-efcbf8a7ec10?q=80&w=800&auto=format&fit=crop" alt="Bolso tote" />
+            <img src="https://plazavea.vteximg.com.br/arquivos/ids/31325290-418-418/imageUrl_1.jpg" alt="Bolso tote" />
             <h3>Bolso Tote Lona</h3>
             <p class="price">S/45.00</p>
             <button>Añadir</button>
           </article>
           <article class="p-card reveal-first" data-name="Gorra Algodón" data-price="22.00">
-            <img src="https://images.unsplash.com/photo-1617059123995-6d5f8c2d5ae9?q=80&w=800&auto=format&fit=crop" alt="Gorra beige" />
+            <img src="https://m.media-amazon.com/images/I/51r2lXHeJOL._AC_SY1000_.jpg" alt="Gorra beige" />
             <h3>Gorra Algodón</h3>
             <p class="price">S/22.00</p>
             <button>Añadir</button>
           </article>
           <article class="p-card reveal-mid" data-name="Gafas Pasta" data-price="34.90">
-            <img src="https://images.unsplash.com/photo-1585386959984-a4155222cd05?q=80&w=800&auto=format&fit=crop" alt="Gafas pasta" />
+            <img src="https://soloptical.net/pub/media/catalog/product/cache/a237138a07ed0dd2cc8a6fa440635ea6/2/4/24-497-17-01_5516_145.jpg" alt="Gafas pasta" />
             <h3>Gafas Pasta</h3>
             <p class="price">S/34.90</p>
             <button>Añadir</button>
@@ -232,13 +232,13 @@ session_start();
             <button>Añadir</button>
           </article>
           <article class="p-card reveal-late" data-name="Cinturón de Cuero" data-price="28.00">
-            <img src="https://images.unsplash.com/photo-1535324492437-7743d863f19b?q=80&w=800&auto=format&fit=crop" alt="Cinturón de cuero marrón" />
+            <img src="https://blackbubba.com.pe/cdn/shop/files/belt-browne-105-1-c86eb425-9603-4943-9d3d-658b16072c8a_8632b693-f127-483c-ae1f-8d06b9e33c0e.jpg?v=1708108483&width=416" alt="Cinturón de cuero marrón" />
             <h3>Cinturón de Cuero</h3>
             <p class="price">S/28.00</p>
             <button>Añadir</button>
           </article>
           <article class="p-card reveal-late" data-name="Bufanda de Lana" data-price="26.00">
-            <img src="https://images.unsplash.com/photo-1542996968-07b661f86f5e?q=80&w=800&auto=format&fit=crop" alt="Bufanda de lana" />
+            <img src="https://i.pinimg.com/474x/00/84/8a/00848a8b948a84dfec0b275919b982c1.jpg" alt="Bufanda de lana" />
             <h3>Bufanda de Lana</h3>
             <p class="price">S/26.00</p>
             <button>Añadir</button>
@@ -256,7 +256,7 @@ session_start();
         </header>
         <div class="product-grid" data-cat="novedades">
           <article class="p-card reveal-first" data-name="Chaqueta Técnica" data-price="130.00" data-new="1">
-            <img src="https://images.unsplash.com/photo-1542060748-10c28b62716b?q=80&w=800&auto=format&fit=crop" alt="Chaqueta técnica" />
+            <img src="https://topmotorbike.com/wp-content/uploads/2021/06/98185-21VW_F.jpg" alt="Chaqueta técnica" />
             <h3>Chaqueta Técnica</h3>
             <p class="price">S/130.00</p>
             <button>Añadir</button>
@@ -268,7 +268,7 @@ session_start();
             <button>Añadir</button>
           </article>
           <article class="p-card reveal-mid" data-name="Bolso Cilindro" data-price="68.00" data-new="1">
-            <img src="https://images.unsplash.com/photo-1613553492169-78a8fca4b1f2?q=80&w=800&auto=format&fit=crop" alt="Bolso cilindro" />
+            <img src="https://x3madrid.com/wp-content/uploads/bolso-cilindro-camel.jpg" alt="Bolso cilindro" />
             <h3>Bolso Cilindro</h3>
             <p class="price">S/68.00</p>
             <button>Añadir</button>
@@ -280,7 +280,7 @@ session_start();
             <button>Añadir</button>
           </article>
           <article class="p-card reveal-late" data-name="Parka Ligera" data-price="140.00" data-new="1">
-            <img src="https://images.unsplash.com/photo-1548883354-90f3df7ad05e?q=80&w=800&auto=format&fit=crop" alt="Parka ligera" />
+            <img src="https://image.made-in-china.com/202f0j00aSkbpJmHfcqf/Women-s-Outdoor-Waterproof-Breathable-Light-Weight-Puff-Parka-Plume-Grey.webp" alt="Parka ligera" />
             <h3>Parka Ligera</h3>
             <p class="price">S/140.00</p>
             <button>Añadir</button>
