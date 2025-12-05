@@ -14,7 +14,7 @@ function enviarCorreoRecuperacion($correo, $token) {
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
         $mail->Username = 'rene.merino.ci@iestpvillamaria.edu.pe'; // Cambia por tu correo
-        $mail->Password = 'hfgxizueulafqfpl'; // Cambia por tu contraseña de aplicación
+        $mail->Password = 'tkch tfza bhqq fhpz'; // Cambia por tu contraseña de aplicación
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 

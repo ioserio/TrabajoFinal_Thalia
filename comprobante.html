@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Comprobante de Venta</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .receipt{max-width:740px; margin:24px auto; background:#fff; border:1px solid #eee; border-radius:12px; padding:20px; box-shadow:0 8px 26px -12px rgba(0,0,0,.18)}
+    .receipt header{display:flex; justify-content:space-between; align-items:center; margin-bottom:16px}
+    .receipt h1{font-size:1.3rem; margin:0}
+    .meta{font-size:.9rem; color:#555}
+    .items{margin-top:12px; border-top:1px dashed #ddd; padding-top:12px}
+    .item{display:grid; grid-template-columns:56px 1fr auto; gap:.6rem; align-items:center; padding:.4rem 0}
+    .item img{width:56px; height:56px; object-fit:cover; border-radius:8px}
+    .total{display:flex; justify-content:space-between; align-items:center; border-top:1px solid #eee; margin-top:12px; padding-top:12px}
+    .actions{display:grid; grid-template-columns:1fr 1fr; gap:.6rem; margin-top:16px; align-items:stretch}
+    .actions .main-btn{display:inline-block; width:100%; text-align:center; text-decoration:none}
+    @media print{
+      .actions{display:none}
+      body{background:#fff}
+      .receipt{box-shadow:none; border:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="receipt" id="receipt">
+    <header>
+      <h1>Comprobante de Venta</h1>
+      <div class="meta">
+        <div>Fecha: <span id="rDate"></span></div>
+        <div>Cliente: <span id="rBuyer"></span></div>
+  <div>Método: <span id="rMethod"></span></div>
+  <div>Tarjeta/Ref: <span id="rCard"></span></div>
+      </div>
+    </header>
+    <section class="items" id="rItems"></section>
+    <div class="total">
+      <strong>Total</strong>
+      <strong id="rTotal">S/0.00</strong>
+    </div>
+    <div class="actions">
+  <button class="main-btn" onclick="window.print()">Imprimir</button>
+  <a class="main-btn" href="index.php">Volver al inicio</a>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+  const meta = JSON.parse(localStorage.getItem('lastReceiptMeta')||'{}');
+  // Prefer a dedicated snapshot captured at checkout; fallback to guest cart
+  const cart = JSON.parse(localStorage.getItem('lastReceiptItems')||localStorage.getItem('boutique_cart_v1')||'[]');
+      function fmtDate(iso){ try{ const d=new Date(iso); return d.toLocaleString(); }catch{ return new Date().toLocaleString(); } }
+      document.getElementById('rDate').textContent = fmtDate(meta.date||new Date().toISOString());
+      document.getElementById('rBuyer').textContent = meta.buyer || 'Cliente';
+  document.getElementById('rMethod').textContent = (meta.method||'Tarjeta').toUpperCase();
+  document.getElementById('rCard').textContent = meta.card || '****';
+      const itemsEl = document.getElementById('rItems');
+      itemsEl.innerHTML = '';
+      let total = 0;
+      (cart||[]).forEach(it=>{
+        const price = parseFloat(it.price||0);
+        const qty = Math.max(1, parseInt(it.qty||'1',10));
+        total += price * qty;
+        const row = document.createElement('div');
+        row.className = 'item';
+        row.innerHTML = `
+          <img src="${it.img}" alt="${it.name}" onerror="this.onerror=null;this.src='https://placehold.co/56x56?text=No+img';" />
+          <div>
+            <div style="font-weight:700">${it.name}</div>
+            <div style="font-size:.9rem;color:#555">Cantidad: ${qty}</div>
+          </div>
+          <div style="text-align:right">S/${price.toFixed(2)}</div>
+        `;
+        itemsEl.appendChild(row);
+      });
+      document.getElementById('rTotal').textContent = 'S/' + total.toFixed(2);
+    })();
+  </script>
+</body>
+</html>

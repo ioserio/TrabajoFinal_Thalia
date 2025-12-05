@@ -563,23 +563,39 @@ body.half-state .half-quote{
 }
 
 /* ====== CATÁLOGO DE PRODUCTOS ====== */
-.topbar{position:sticky; top:0; z-index:50; display:flex; gap:2rem; align-items:center; padding:.85rem 1.5rem; background:rgba(255,255,255,.8); backdrop-filter:blur(10px); box-shadow:0 4px 18px -6px rgba(0,0,0,.12)}
+.topbar{position:sticky; top:0; z-index:50; display:flex; gap:1rem; align-items:center; padding:.65rem .8rem; background:rgba(255,255,255,.8); backdrop-filter:blur(10px); box-shadow:0 4px 18px -6px rgba(0,0,0,.12)}
 .topbar .brand{font-weight:800; letter-spacing:.08em}
+/* Max-width container for wide screens to prevent overly stretched layouts */
+.topbar, .catalog, .overlay-head, .products-overlay-inner{container-type:inline-size}
+.topbar > *, .catalog > *, .overlay-head > *, .products-overlay-inner > *{max-width:1400px; width:100%; margin-left:auto; margin-right:auto}
+/* Mantener el contenido del topbar pegado a los bordes */
+.topbar{justify-content:space-between}
+.topbar > *{max-width:none; width:auto; margin:0}
+
 .main-nav{display:flex; gap:1rem; flex-wrap:wrap}
 .main-nav a{color:#222; text-decoration:none; font-size:.85rem; font-weight:500; padding:.45rem .9rem; border-radius:999px; transition:.25s}
 .main-nav a:hover{background:#f2f2f2}
 
-.catalog{padding:2rem 1rem 4rem; display:flex; flex-direction:column; gap:4rem}
+.catalog{padding:2rem 1rem 4rem; display:flex; flex-direction:column; gap:4rem; max-width:1400px; margin:0 auto}
 .catalog .intro{padding:2.2rem 1.8rem; background:linear-gradient(135deg,#ffe8ee,#ffffff 55%)}
 .catalog-hero{max-width:860px}
 .catalog-tags{display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.75rem}
 .catalog-tags span{background:#222; color:#fff; font-size:.65rem; letter-spacing:.05em; padding:.4rem .6rem; border-radius:999px}
 
-.product-category .frame-card{padding:1.6rem 1.4rem 2.2rem}
+.product-category .frame-card{padding:1.6rem 1.4rem 2.2rem; max-width:1400px; margin:0 auto}
 .category-head h2{margin:0 0 .35rem; font-size:clamp(1.4rem,3vw,2.2rem); font-family:"Luckiest Guy",cursive; letter-spacing:.04em}
 .category-head p{margin:0 0 1.4rem; font-size:.9rem; color:#555; max-width:560px}
 
-.product-grid{display:grid; gap:1rem; grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+.product-grid{display:grid; gap:1rem; grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+/* Improve large-screen readability: increase gutters and cap item width */
+@media (min-width:1400px){
+  .product-grid{gap:1.2rem; grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+}
+@media (min-width:1700px){
+  .catalog{max-width:1600px}
+  .product-category .frame-card{max-width:1600px}
+  .product-grid{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+}
 .p-card{background:#fff; border:1px solid #ececec; border-radius:18px; padding:.85rem .85rem 1.15rem; display:flex; flex-direction:column; position:relative; box-shadow:0 6px 20px -8px rgba(0,0,0,.1); transition:transform .35s, box-shadow .35s}
 .p-card:hover{transform:translateY(-6px); box-shadow:0 14px 34px -10px rgba(0,0,0,.18)}
 .p-card img{width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:14px; margin-bottom:.65rem}
@@ -587,6 +603,27 @@ body.half-state .half-quote{
 .p-card .price{font-size:.85rem; margin:0 0 .6rem; color:#444; font-weight:500}
 .p-card button{margin-top:auto; background:var(--ink); color:#fff; border:none; padding:.55rem .9rem; border-radius:12px; font-size:.75rem; cursor:pointer; letter-spacing:.05em; font-weight:600; transition:.25s}
 .p-card button:hover{background:#000}
+/* Professional additions: badges and footer actions */
+.p-card .badges{position:absolute; top:.65rem; left:.65rem; display:flex; gap:.35rem}
+.p-card .badge{background:rgba(17,17,17,.82); color:#fff; font-size:.68rem; padding:.25rem .45rem; border-radius:999px; box-shadow:0 6px 16px rgba(0,0,0,.18)}
+.p-card .card-actions{display:flex; justify-content:space-between; align-items:center; gap:.5rem; margin-top:.6rem}
+.p-card .act-btn{border:1px solid #e7e7e7; background:#fff; color:#222; border-radius:10px; padding:.4rem .6rem; font-size:.75rem; cursor:pointer}
+.p-card .icon-btn{width:34px; height:34px; display:grid; place-items:center; border-radius:10px; border:1px solid #e7e7e7; background:#fff; cursor:pointer}
+.p-card .icon-btn:hover,.p-card .act-btn:hover{box-shadow:0 10px 24px -10px rgba(0,0,0,.18)}
+
+/* Quick View modal */
+.modal-backdrop.quickview{z-index:1001}
+.quickview-card{position:relative; width:min(760px, 92vw); background:#fff; border:1px solid #eee; border-radius:18px; box-shadow:var(--shadow); display:grid; grid-template-columns:1fr 1fr; gap:1rem; padding:1rem}
+.quickview-card img{width:100%; height:auto; border-radius:14px; object-fit:cover}
+.quickview-meta{display:flex; flex-direction:column; gap:.5rem}
+.quickview-title{font-size:1.2rem; font-weight:800}
+.quickview-price{font-size:1rem; font-weight:700; color:#222}
+.quickview-desc{font-size:.9rem; color:#555}
+.quickview-actions{margin-top:auto; display:flex; gap:.5rem}
+.quickview-actions .main-btn{width:auto; padding:.6rem .9rem}
+@media (max-width:760px){
+  .quickview-card{grid-template-columns:1fr}
+}
 
 .site-footer{margin-top:4rem; padding:2.5rem 1rem; text-align:center; font-size:.75rem; color:#666; background:#fafafa; border-top:1px solid #eee}
 
@@ -842,3 +879,7 @@ body.half-state .half-quote{
   .overlay-scroll{gap:2.5rem}
   .close-products{width:40px; height:40px}
 }
+
+/* Pago: inputs del modal */
+.payment-card input{border:1px solid #e7e7e7; border-radius:10px; padding:.55rem .7rem; font-size:.95rem}
+.payment-card input:focus{outline:none; border-color:#111}

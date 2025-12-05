@@ -8,9 +8,7 @@
 </head>
 <body>
     <div class="login-container">
-        <div style="margin-bottom:1rem; text-align:left;">
-            <a href="login.html" class="home-link" title="Volver al login" aria-label="Volver al login" style="color:var(--rose-2);text-decoration:underline;font-size:1rem;">&larr; Volver al login</a>
-        </div>
+        <a href="login.html" title="Volver al login" aria-label="Volver al login" style="position:absolute; top:12px; right:12px; color:var(--rose-2); text-decoration:underline; font-weight:700; font-size:.95rem;">Volver al login</a>
         <h2>Recuperar Contraseña</h2>
         <form action="recuperar_contraseña.php" method="POST">
             <label for="correo">Ingresa tu correo electrónico:</label>

@@ -111,41 +111,61 @@ session_start();
           <p class="reveal-mid">Prendas versátiles para combinar y repetir sin perder estilo.</p>
         </header>
         <div class="product-grid" data-cat="ropa">
-          <article class="p-card reveal-first" data-name="Camisa Lino Beige" data-price="39.90">
+          <article class="p-card reveal-first" data-name="Camisa Lino Beige" data-price="39.90" data-desc="Camisa de lino respirable, ideal para clima cálido." data-new="1">
+            <div class="badges"><span class="badge">Nuevo</span></div>
             <img src="https://images.unsplash.com/photo-1520970014086-2208d157c9e2?q=80&w=800&auto=format&fit=crop" alt="Camisa lino beige" />
             <h3>Camisa Lino Beige</h3>
             <p class="price">S/39.90</p>
-            <button>Añadir</button>
+            <div class="card-actions">
+              <button class="act-btn add-btn" type="button">Añadir</button>
+              <button class="icon-btn wish-btn" aria-label="Favorito">❤</button>
+            </div>
           </article>
-          <article class="p-card reveal-first" data-name="Blazer Negro" data-price="79.00">
+          <article class="p-card reveal-first" data-name="Blazer Negro" data-price="79.00" data-desc="Blazer negro clásico, corte slim." data-new="0">
             <img src="https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?q=80&w=800&auto=format&fit=crop" alt="Blazer negro" />
             <h3>Blazer Negro</h3>
             <p class="price">S/79.00</p>
-            <button>Añadir</button>
+            <div class="card-actions">
+              <button class="act-btn add-btn" type="button">Añadir</button>
+              <button class="icon-btn wish-btn" aria-label="Favorito">❤</button>
+            </div>
           </article>
-          <article class="p-card reveal-mid" data-name="Pantalón Recto Arena" data-price="49.50">
+          <article class="p-card reveal-mid" data-name="Pantalón Recto Arena" data-price="49.50" data-desc="Pantalón recto color arena, tejido suave." data-new="0">
             <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=800&auto=format&fit=crop" alt="Pantalón recto arena" />
             <h3>Pantalón Recto Arena</h3>
             <p class="price">S/49.50</p>
-            <button>Añadir</button>
+            <div class="card-actions">
+              <button class="act-btn add-btn" type="button">Añadir</button>
+              <button class="icon-btn wish-btn" aria-label="Favorito">❤</button>
+            </div>
           </article>
-          <article class="p-card reveal-late" data-name="Sudadera Oversized" data-price="59.00">
+          <article class="p-card reveal-late" data-name="Sudadera Oversized" data-price="59.00" data-desc="Sudadera oversized color crema, extra cómoda." data-new="0">
             <img src="https://www.desire.pe/cdn/shop/files/183.png?v=1698265393&width=600" alt="Sudadera oversized crema" />
             <h3>Sudadera Oversized</h3>
             <p class="price">S/59.00</p>
-            <button>Añadir</button>
+            <div class="card-actions">
+              <button class="act-btn add-btn" type="button">Añadir</button>
+              <button class="icon-btn wish-btn" aria-label="Favorito">❤</button>
+            </div>
           </article>
-          <article class="p-card reveal-late" data-name="Vestido Midi Rosa" data-price="69.00">
+          <article class="p-card reveal-late" data-name="Vestido Midi Rosa" data-price="69.00" data-desc="Vestido midi rosa, ideal para eventos casuales." data-new="0">
             <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=800&auto=format&fit=crop" alt="Vestido midi rosa" />
             <h3>Vestido Midi Rosa</h3>
             <p class="price">S/69.00</p>
-            <button>Añadir</button>
+            <div class="card-actions">
+              <button class="act-btn add-btn" type="button">Añadir</button>
+              <button class="icon-btn wish-btn" aria-label="Favorito">❤</button>
+            </div>
           </article>
-          <article class="p-card reveal-late" data-name="Chaqueta Denim Azul" data-price="74.00">
+          <article class="p-card reveal-late" data-name="Chaqueta Denim Azul" data-price="74.00" data-desc="Chaqueta denim azul de alta resistencia." data-new="0">
             <img src="https://m.media-amazon.com/images/I/51uJbq-5FjL._AC_.jpg" alt="Chaqueta denim azul" />
             <h3>Chaqueta Denim Azul</h3>
             <p class="price">S/74.00</p>
-            <button>Añadir</button>
+            <div class="card-actions">
+              <button class="act-btn qv-btn" type="button">Vista rápida</button>
+              <button class="act-btn">Añadir</button>
+              <button class="icon-btn wish-btn" aria-label="Favorito">❤</button>
+            </div>
           </article>
         </div>
       </div>
@@ -163,37 +183,37 @@ session_start();
             <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=800&auto=format&fit=crop" alt="Zapatillas blancas" />
             <h3>Zapatillas Minimal</h3>
             <p class="price">S/72.00</p>
-            <button>Añadir</button>
+            <button class="act-btn add-btn" type="button">Añadir</button>
           </article>
           <article class="p-card reveal-mid" data-name="Botín Cuero" data-price="110.00">
             <img src="imagenes/botin cuero.jpg" alt="Botín cuero" />
             <h3>Botín Cuero</h3>
             <p class="price">S/110.00</p>
-            <button>Añadir</button>
+            <button class="act-btn add-btn" type="button">Añadir</button>
           </article>
           <article class="p-card reveal-mid" data-name="Mocasín Marrón" data-price="89.90">
             <img src="https://images.unsplash.com/photo-1603808033192-082d6919d3e1?q=80&w=800&auto=format&fit=crop" alt="Mocasín marrón" />
             <h3>Mocasín Marrón</h3>
             <p class="price">S/89.90</p>
-            <button>Añadir</button>
+            <button class="act-btn add-btn" type="button">Añadir</button>
           </article>
           <article class="p-card reveal-late" data-name="Sandalia Piel" data-price="64.00">
             <img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=800&auto=format&fit=crop" alt="Sandalia piel" />
             <h3>Sandalia Piel</h3>
             <p class="price">S/64.00</p>
-            <button>Añadir</button>
+            <button class="act-btn add-btn" type="button">Añadir</button>
           </article>
           <article class="p-card reveal-late" data-name="Bota Chelsea Negra" data-price="120.00">
             <img src="https://shoppinghavana.com/wp-content/uploads/2025/05/file_00000000c53861f899d48490a88dc305.jpg" alt="Bota chelsea negra" />
             <h3>Bota Chelsea Negra</h3>
             <p class="price">S/120.00</p>
-            <button>Añadir</button>
+            <button class="act-btn add-btn" type="button">Añadir</button>
           </article>
           <article class="p-card reveal-late" data-name="Zapatilla Running Pro" data-price="98.00">
             <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format&fit=crop" alt="Zapatilla running profesional" />
             <h3>Zapatilla Running Pro</h3>
             <p class="price">S/98.00</p>
-            <button>Añadir</button>
+            <button class="act-btn add-btn" type="button">Añadir</button>
           </article>
         </div>
       </div>
@@ -211,37 +231,37 @@ session_start();
             <img src="https://plazavea.vteximg.com.br/arquivos/ids/31325290-418-418/imageUrl_1.jpg" alt="Bolso tote" />
             <h3>Bolso Tote Lona</h3>
             <p class="price">S/45.00</p>
-            <button>Añadir</button>
+            <button class="act-btn add-btn" type="button">Añadir</button>
           </article>
           <article class="p-card reveal-first" data-name="Gorra Algodón" data-price="22.00">
             <img src="https://m.media-amazon.com/images/I/51r2lXHeJOL._AC_SY1000_.jpg" alt="Gorra beige" />
             <h3>Gorra Algodón</h3>
             <p class="price">S/22.00</p>
-            <button>Añadir</button>
+            <button class="act-btn add-btn" type="button">Añadir</button>
           </article>
           <article class="p-card reveal-mid" data-name="Gafas Pasta" data-price="34.90">
             <img src="https://soloptical.net/pub/media/catalog/product/cache/a237138a07ed0dd2cc8a6fa440635ea6/2/4/24-497-17-01_5516_145.jpg" alt="Gafas pasta" />
             <h3>Gafas Pasta</h3>
             <p class="price">S/34.90</p>
-            <button>Añadir</button>
+            <button class="act-btn add-btn" type="button">Añadir</button>
           </article>
           <article class="p-card reveal-late" data-name="Reloj Minimal" data-price="120.00">
             <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop" alt="Reloj minimal" />
             <h3>Reloj Minimal</h3>
             <p class="price">S/120.00</p>
-            <button>Añadir</button>
+            <button class="act-btn add-btn" type="button">Añadir</button>
           </article>
           <article class="p-card reveal-late" data-name="Cinturón de Cuero" data-price="28.00">
             <img src="https://blackbubba.com.pe/cdn/shop/files/belt-browne-105-1-c86eb425-9603-4943-9d3d-658b16072c8a_8632b693-f127-483c-ae1f-8d06b9e33c0e.jpg?v=1708108483&width=416" alt="Cinturón de cuero marrón" />
             <h3>Cinturón de Cuero</h3>
             <p class="price">S/28.00</p>
-            <button>Añadir</button>
+            <button class="act-btn add-btn" type="button">Añadir</button>
           </article>
           <article class="p-card reveal-late" data-name="Bufanda de Lana" data-price="26.00">
             <img src="https://i.pinimg.com/474x/00/84/8a/00848a8b948a84dfec0b275919b982c1.jpg" alt="Bufanda de lana" />
             <h3>Bufanda de Lana</h3>
             <p class="price">S/26.00</p>
-            <button>Añadir</button>
+            <button class="act-btn add-btn" type="button">Añadir</button>
           </article>
         </div>
       </div>
@@ -259,37 +279,37 @@ session_start();
             <img src="https://topmotorbike.com/wp-content/uploads/2021/06/98185-21VW_F.jpg" alt="Chaqueta técnica" />
             <h3>Chaqueta Técnica</h3>
             <p class="price">S/130.00</p>
-            <button>Añadir</button>
+            <button class="act-btn add-btn" type="button">Añadir</button>
           </article>
           <article class="p-card reveal-mid" data-name="Sneaker Limitada" data-price="150.00" data-new="1">
             <img src="https://images.unsplash.com/photo-1544986581-efac024faf62?q=80&w=800&auto=format&fit=crop" alt="Sneaker edición limitada" />
             <h3>Sneaker Limitada</h3>
             <p class="price">S/150.00</p>
-            <button>Añadir</button>
+            <button class="act-btn add-btn" type="button">Añadir</button>
           </article>
           <article class="p-card reveal-mid" data-name="Bolso Cilindro" data-price="68.00" data-new="1">
             <img src="https://x3madrid.com/wp-content/uploads/bolso-cilindro-camel.jpg" alt="Bolso cilindro" />
             <h3>Bolso Cilindro</h3>
             <p class="price">S/68.00</p>
-            <button>Añadir</button>
+            <button class="act-btn add-btn" type="button">Añadir</button>
           </article>
           <article class="p-card reveal-late" data-name="Camiseta Gráfica" data-price="29.90" data-new="1">
             <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?q=80&w=800&auto=format&fit=crop" alt="Camiseta gráfica" />
             <h3>Camiseta Gráfica</h3>
             <p class="price">S/29.90</p>
-            <button>Añadir</button>
+            <button class="act-btn add-btn" type="button">Añadir</button>
           </article>
           <article class="p-card reveal-late" data-name="Parka Ligera" data-price="140.00" data-new="1">
             <img src="https://image.made-in-china.com/202f0j00aSkbpJmHfcqf/Women-s-Outdoor-Waterproof-Breathable-Light-Weight-Puff-Parka-Plume-Grey.webp" alt="Parka ligera" />
             <h3>Parka Ligera</h3>
             <p class="price">S/140.00</p>
-            <button>Añadir</button>
+            <button class="act-btn add-btn" type="button">Añadir</button>
           </article>
           <article class="p-card reveal-late" data-name="Gorro Beanie Orgánico" data-price="19.90" data-new="1">
             <img src="https://images.unsplash.com/photo-1516826957135-700dedea698c?q=80&w=800&auto=format&fit=crop" alt="Gorro beanie orgánico" />
             <h3>Gorro Beanie Orgánico</h3>
             <p class="price">S/19.90</p>
-            <button>Añadir</button>
+            <button class="act-btn add-btn" type="button">Añadir</button>
           </article>
         </div>
       </div>
@@ -313,6 +333,49 @@ session_start();
           <button type="button" id="checkoutBtn" class="main-btn" style="width:auto; padding:.6rem 1rem;">Finalizar compra</button>
         </div>
       </div>
+
+    </div>
+  </div>
+
+  <!-- Modal Método de Pago -->
+  <div id="methodModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-card" style="max-width:min(520px, 92vw);">
+      <button type="button" class="modal-close" aria-label="Cerrar">×</button>
+      <h3>Elige tu método de pago</h3>
+      <div style="display:grid; gap:.6rem; margin-top:.6rem;">
+        <button type="button" class="main-btn" data-method="card">Tarjeta</button>
+        <button type="button" class="main-btn" data-method="yape">Yape / Plin</button>
+        <button type="button" class="main-btn" data-method="cash">Efectivo / Contraentrega</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Pago -->
+  <div id="paymentModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-card" style="max-width:min(560px, 92vw);">
+      <button type="button" class="modal-close" aria-label="Cerrar">×</button>
+      <h3>Pago con tarjeta</h3>
+      <form id="paymentForm" style="display:grid; gap:.7rem; margin-top:.4rem;">
+        <label style="display:grid; gap:.35rem;">
+          <span>Nombre en la tarjeta</span>
+          <input type="text" name="cardName" placeholder="Juan Perez" required />
+        </label>
+        <label style="display:grid; gap:.35rem;">
+          <span>Número de tarjeta</span>
+          <input type="text" name="cardNumber" placeholder="4111 1111 1111 1111" inputmode="numeric" maxlength="19" required />
+        </label>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:.6rem;">
+          <label style="display:grid; gap:.35rem;">
+            <span>Vencimiento</span>
+            <input type="text" name="expiry" placeholder="MM/AA" inputmode="numeric" maxlength="5" required />
+          </label>
+          <label style="display:grid; gap:.35rem;">
+            <span>CVV</span>
+            <input type="password" name="cvv" placeholder="123" inputmode="numeric" maxlength="4" required />
+          </label>
+        </div>
+        <button type="submit" class="main-btn" id="paySubmit" style="width:auto; padding:.6rem 1rem;">Pagar</button>
+      </form>
     </div>
   </div>
 
@@ -349,7 +412,8 @@ session_start();
     // Carrito con fallback: intenta API PHP (sesión) y cae a localStorage si 401
     (function(){
       const LS_KEY = 'boutique_cart_v1';
-      const btns = Array.from(document.querySelectorAll('.product-grid .p-card button'));
+  // Solo botones de añadir al carrito, no vista rápida ni wishlist
+  const btns = Array.from(document.querySelectorAll('.product-grid .p-card .add-btn'));
       const countEl = document.getElementById('cartCount');
       const openBtn = document.getElementById('openCartBtn');
       const cartModal = document.getElementById('cartModal');
@@ -382,20 +446,17 @@ session_start();
       function save(items){ localStorage.setItem(LS_KEY, JSON.stringify(items)); }
       function updateBadge(items){ if(countEl) countEl.textContent = items.reduce((s,it)=>s+it.qty,0); }
       async function addItem(item){
-        // Try API first (requiere sesión para persistir en BD)
+        // Intentar API; si no hay sesión, usar localStorage sin obligar login
         const server = await api('POST','add',{ name:item.name, price:parseFloat(item.price||0), img:item.img });
-        if(server && server.error === 'unauthorized'){
-          alert('Inicia sesión para guardar tu carrito en tu cuenta.');
-          try{ location.href = 'login.html'; }catch{}
-          return;
-        }
-        if(server){ updateBadge(server.items || []); return renderServer(server); }
+        if(server && !server.error){ updateBadge(server.items || []); return renderServer(server); }
         // Fallback local
         const items = load();
         const idx = items.findIndex(x=>x.name===item.name);
         if(idx>=0){ items[idx].qty += 1; } else { items.push({...item, qty:1}); }
         save(items); updateBadge(items); renderLocal(items);
       }
+      // Exponer función para Quick View
+      window.__addItem = addItem;
       async function removeById(id){
         const server = await api('POST','remove',{ id_producto:id });
         if(server){ updateBadge(server.items || []); return renderServer(server); }
@@ -501,12 +562,7 @@ session_start();
       async function open(){
         cartModal?.classList.add('open');
         const server = await api('GET','list');
-        if(server && server.error === 'unauthorized'){
-          alert('Inicia sesión para ver y guardar tu carrito en la base de datos.');
-          try{ location.href = 'login.html'; }catch{}
-          return;
-        }
-        if(server){ updateBadge(server.items || []); return renderServer(server); }
+        if(server && !server.error){ updateBadge(server.items || []); return renderServer(server); }
         renderLocal();
       }
       function close(){ cartModal?.classList.remove('open'); }
@@ -529,22 +585,127 @@ session_start();
       window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
       clearBtn?.addEventListener('click', async ()=>{
         const server = await api('POST','clear',{});
-        if(server && server.error === 'unauthorized'){
-          alert('Debes iniciar sesión para vaciar el carrito del servidor.');
+        if(server && !server.error){ updateBadge(server.items || []); return renderServer(server); }
+        // Limpia local sin requerir login
+        save([]); updateBadge([]); renderLocal([]);
+      });
+      // Abrir modal de pago al finalizar compra
+      const paymentModal = document.getElementById('paymentModal');
+      const paymentForm = document.getElementById('paymentForm');
+      const paymentClose = paymentModal?.querySelector('.modal-close');
+      function openPayment(){ paymentModal.classList.add('open'); paymentModal.setAttribute('aria-hidden','false'); paymentModal.style.display='flex'; }
+      function closePayment(){ paymentModal.classList.remove('open'); paymentModal.setAttribute('aria-hidden','true'); paymentModal.style.display=''; }
+      checkoutBtn?.addEventListener('click', async ()=>{
+        const logged = <?php echo isset($_SESSION['user_id']) ? 'true' : 'false'; ?>;
+        if(!logged){
+          // Usuario no logueado: validar local y pedir login
+          const localCart = JSON.parse(localStorage.getItem(LS_KEY)||'[]');
+          if(!localCart.length){ alert('Tu carrito está vacío.'); return; }
+          alert('Primero debes iniciar sesión para finalizar la compra.');
           try{ location.href = 'login.html'; }catch{}
           return;
         }
-        if(server){ updateBadge(server.items || []); return renderServer(server); }
-        save([]); updateBadge([]); renderLocal([]);
+        // Usuario logueado: validar contra el servidor (no usar local, que pudo limpiarse tras merge)
+        const server = await api('GET','list');
+        const items = (server && !server.error && Array.isArray(server.items)) ? server.items : [];
+        if(items.length===0){ alert('Tu carrito está vacío.'); return; }
+        // Abrimos selección de método primero
+        methodModal.classList.add('open'); methodModal.setAttribute('aria-hidden','false'); methodModal.style.display='flex';
       });
-      checkoutBtn?.addEventListener('click', ()=>{
-        alert('Gracias por tu compra (demo). Integraremos el checkout real aquí.');
+      // Selección de método
+      const methodModal = document.getElementById('methodModal');
+      const methodClose = methodModal?.querySelector('.modal-close');
+      methodClose?.addEventListener('click', ()=>{ methodModal.classList.remove('open'); methodModal.setAttribute('aria-hidden','true'); methodModal.style.display=''; });
+      methodModal?.addEventListener('click', (e)=>{ if(e.target===methodModal){ methodModal.classList.remove('open'); methodModal.setAttribute('aria-hidden','true'); methodModal.style.display=''; } });
+      methodModal?.addEventListener('click', (e)=>{
+        const btn = e.target.closest && e.target.closest('button[data-method]');
+        if(!btn) return;
+        const method = btn.dataset.method;
+        // Cerrar selección
+        methodModal.classList.remove('open'); methodModal.setAttribute('aria-hidden','true'); methodModal.style.display='';
+        if(method==='card'){ openPayment(); return; }
+        // Métodos alternativos: simular confirmación y emitir comprobante con server snapshot
+        alert('Gracias por tu compra');
+        const meta = { buyer: '<?php echo htmlspecialchars($_SESSION['nombres'] ?? "Cliente"); ?>', card: method.toUpperCase(), date: new Date().toISOString(), method };
+        localStorage.setItem('lastReceiptMeta', JSON.stringify(meta));
+        (async ()=>{
+          try{
+            const server = await api('GET','list');
+            const items = (server && !server.error && Array.isArray(server.items)) ? server.items : [];
+            const snap = items.map(it=>({ name: it.name, img: it.img || '', price: parseFloat(it.price||0), qty: parseInt(it.qty||'1',10) }));
+            localStorage.setItem('lastReceiptItems', JSON.stringify(snap));
+          }catch{}
+          window.open('comprobante.html', '_blank');
+        })();
+      });
+      paymentClose?.addEventListener('click', closePayment);
+      paymentModal?.addEventListener('click', (e)=>{ if(e.target===paymentModal) closePayment(); });
+      function maskCard(num){ const digits=(num||'').replace(/\D+/g,''); return digits.length<4?'****':'**** **** **** '+digits.slice(-4); }
+      function normalizeCard(num){ return (num||'').replace(/\D+/g,'').replace(/(.{4})/g,'$1 ').trim(); }
+      function validateExpiry(mmYY){ const m=(mmYY||'').match(/^(\d{2})\/(\d{2})$/); if(!m) return false; const mm=parseInt(m[1],10), yy=parseInt(m[2],10); if(mm<1||mm>12) return false; const now=new Date(); const year=now.getFullYear()%100, month=now.getMonth()+1; return yy>year || (yy===year && mm>=month); }
+      paymentForm?.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const fd = new FormData(paymentForm);
+        const cardName = String(fd.get('cardName')||'').trim();
+        let cardNumber = String(fd.get('cardNumber')||'').trim();
+        const expiry = String(fd.get('expiry')||'').trim();
+        const cvv = String(fd.get('cvv')||'').trim();
+        cardNumber = normalizeCard(cardNumber);
+        if(cardName.length<3){ alert('Ingresa el nombre tal como aparece en la tarjeta.'); return; }
+        const rawDigits = cardNumber.replace(/\D+/g,'');
+        if(rawDigits.length<13 || rawDigits.length>19){ alert('Número de tarjeta inválido.'); return; }
+        if(!validateExpiry(expiry)){ alert('Vencimiento inválido. Usa formato MM/AA.'); return; }
+        if(!/^\d{3,4}$/.test(cvv)){ alert('CVV inválido.'); return; }
+        closePayment();
+        alert('Gracias por tu compra');
+        const masked = maskCard(cardNumber);
+        const meta = { buyer: cardName, card: masked, date: new Date().toISOString(), method: 'card' };
+        localStorage.setItem('lastReceiptMeta', JSON.stringify(meta));
+        (async ()=>{
+          try{
+            const server = await api('GET','list');
+            const items = (server && !server.error && Array.isArray(server.items)) ? server.items : [];
+            const snap = items.map(it=>({ name: it.name, img: it.img || '', price: parseFloat(it.price||0), qty: parseInt(it.qty||'1',10) }));
+            localStorage.setItem('lastReceiptItems', JSON.stringify(snap));
+          }catch{}
+          window.open('comprobante.html', '_blank');
+        })();
       });
       // Init badge using server when possible
       (async ()=>{
         const server = await api('GET','list');
-        if(server && !server.error){ updateBadge(server.items || []); }
-        else { updateBadge(load()); }
+        const logged = <?php echo isset($_SESSION['user_id']) ? 'true' : 'false'; ?>;
+        // If logged in, ensure local guest cart items are merged into server cart
+        if(logged){
+          const localItems = load();
+          const serverEmpty = !(server && !server.error && Array.isArray(server.items) && server.items.length>0);
+          if(localItems.length>0){
+            try{
+              for(const it of localItems){
+                const qty = Math.max(1, parseInt(it.qty||'1',10));
+                for(let i=0;i<qty;i++){
+                  await api('POST','add',{ name: it.name, price: parseFloat(it.price||0), img: it.img });
+                }
+              }
+              // After merge, clear local guest cart to avoid duplicates
+              save([]);
+              const refreshed = await api('GET','list');
+              updateBadge((refreshed && refreshed.items) ? refreshed.items : []);
+              renderServer(refreshed || { items: [] });
+            }catch(e){
+              // If merge fails, at least reflect local badge
+              updateBadge(localItems);
+              renderLocal(localItems);
+            }
+          }else{
+            // No local items: just show server
+            if(server && !server.error){ updateBadge(server.items || []); renderServer(server); }
+          }
+        }else{
+          // Not logged: use local cart
+          if(server && !server.error){ updateBadge(server.items || []); }
+          else { updateBadge(load()); }
+        }
       })();
     })();
   </script>
